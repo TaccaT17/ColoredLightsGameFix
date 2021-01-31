@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LightObject : MonoBehaviour
-{   
-    public enum ColorOfLight
-    {
-        red,
-        yellow,
-        blue
-    }
-
-    public bool debugRedBoolLight = false;
+{
 
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public int redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
-    private Dictionary<ColorOfLight, Light> litBy;
+    private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
 
     private MeshRenderer meshRendererRef;
@@ -32,14 +24,6 @@ public class LightObject : MonoBehaviour
     public void Start()
     {
         Init();
-    }
-
-    public void Update()
-    {
-        if (debugRedBoolLight && litBy[ColorOfLight.red].currentLits < 1)
-        {
-            LightTouched(ColorOfLight.red);
-        }
     }
 
     public void Init()
@@ -67,17 +51,22 @@ public class LightObject : MonoBehaviour
         initBlueLight.currentLits = 0;
 
         //create Dictionaries
-        litBy = new Dictionary<ColorOfLight, Light>();
-        litBy.Add(ColorOfLight.red, initRedLight);
-        litBy.Add(ColorOfLight.yellow, initYellowLight);
-        litBy.Add(ColorOfLight.blue, initBlueLight);
+        litBy = new Dictionary<GameManager.ColorOfLight, Light>();
+        litBy.Add(GameManager.ColorOfLight.red, initRedLight);
+        litBy.Add(GameManager.ColorOfLight.yellow, initYellowLight);
+        litBy.Add(GameManager.ColorOfLight.blue, initBlueLight);
     }
     
-    public int GetLitAmount(ColorOfLight lightColor)
+    public int GetLitAmount(GameManager.ColorOfLight lightColor)
     {
         return litBy[lightColor].currentLits;
     }
-    public void LightTouched(ColorOfLight lightColor)
+
+    /// <summary>
+    /// Call when light shines on this object
+    /// </summary>
+    /// <param name="lightColor"></param>
+    public void Lit(GameManager.ColorOfLight lightColor)
     {
         Light tempLight = litBy[lightColor];
         tempLight.currentLits++;
@@ -85,7 +74,12 @@ public class LightObject : MonoBehaviour
 
         CheckAndChangeOpacity();
     }
-    public void LightLeft(ColorOfLight lightColor)
+
+    /// <summary>
+    /// Call when light stops shining on object
+    /// </summary>
+    /// <param name="lightColor"></param>
+    public void UnLit(GameManager.ColorOfLight lightColor)
     {
         Light tempLight = litBy[lightColor];
         tempLight.currentLits--;
@@ -99,7 +93,7 @@ public class LightObject : MonoBehaviour
         int neededLitNess = 0;
 
         //get total lights lighting
-        foreach (KeyValuePair<ColorOfLight, Light> item in litBy)
+        foreach (KeyValuePair<GameManager.ColorOfLight, Light> item in litBy)
         {
             //if needed amount is 0 don't count it
             if (!(item.Value.neededLits.Equals(0)))
