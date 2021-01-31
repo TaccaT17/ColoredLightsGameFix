@@ -66,6 +66,8 @@ public class FadeObj : MonoBehaviour
 
     private IEnumerator Blackout()
     {
+        GameManager.S.LoadNextLevel();
+
         float normalizedTime = 0;
         while (normalizedTime < 1f)
         {
