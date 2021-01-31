@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class GameStartUI : MonoBehaviour
 {
-    public Canvas canvas;
+    public FadeObj[] fadeGO;
 
-    public void Start()
-    {
-        if(canvas == null)
-        {
-            canvas = GameObject.FindObjectOfType<Canvas>().GetComponent<Canvas>();
-        }
-    }
+    public GameObject text;
 
     public void TurnOffStartMenu()
     {
-        canvas.enabled = false;
+        //turn off text
+        text.SetActive(false);
+
+        foreach (FadeObj fade in fadeGO)
+        {
+            StartCoroutine(fade.FadeIn());
+        }
     }
 }

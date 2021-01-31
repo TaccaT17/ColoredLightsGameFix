@@ -7,15 +7,20 @@ public class LightObject : MonoBehaviour
 
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public bool Stepable = false;
+    
     public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
 
-    public bool debugRedLit;
+    [SerializeField]
+    bool debugRedLit;
 
-    public MeshRenderer meshRendererRef;
-    public Collider colliderRef;
+    [SerializeField]
+    MeshRenderer meshRendererRef;
+    [SerializeField]
+    Collider colliderRef;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     #endregion
 
@@ -167,11 +172,13 @@ public class LightObject : MonoBehaviour
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.isTrigger = true;
+            //colliderRef.isTrigger = true;
+            Stepable = true;
         }
         else
         {
-            colliderRef.isTrigger = false;
+            //colliderRef.isTrigger = false;
+            Stepable = false;
         }
 
     }

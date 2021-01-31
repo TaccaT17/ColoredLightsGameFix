@@ -8,13 +8,18 @@ public class PressurePlate : MonoBehaviour
     
     bool isActivated;
 
+    private void Start()
+    {
+        lightHouseRef.TurnOffLight();
+    }
+
     public void ActivatePressurePlate()
     {
         lightHouseRef.TurnOnLight();
         isActivated = true;
     }
 
-    public void DeavtivatePressurePlate()
+    public void DeactivatePressurePlate()
     {
         lightHouseRef.TurnOffLight();
         isActivated = false;

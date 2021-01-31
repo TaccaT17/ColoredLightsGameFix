@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Lighthouse : MonoBehaviour
 {
+    public VolumetricLightMesh lightMesh;
+
     public void TurnOnLight()
     {
-        //do thingy
+        lightMesh.TurnOnLightMesh();
     }
     public void TurnOffLight()
     {
-        //do thingy
+        lightMesh.TurnOffLightMesh();
     }
 
     public GameManager.ColorOfLight color;
