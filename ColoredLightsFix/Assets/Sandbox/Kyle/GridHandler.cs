@@ -147,49 +147,121 @@ public static class GridHandler
     public static bool AttemptMoveObject(int row, int column, int verticalMove, int horizontalMove)
     {
 
+
         //Debug.Log("Position: " + row + "," + column);
         int tempRow = row + verticalMove;
         int tempColumn = column + horizontalMove;
 
-        Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
-
-        if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
-        {
-            Debug.Log("Not moving onto path!");
-            return false;
-        }
-        else
-        {
-            Debug.Log("Moving onto path!");
-        }
-
-        //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
         if (!IsTileWithinBounds(tempRow, tempColumn))
         {
             //Debug.Log("Not within bounds!");
             return false;
         }
-        else
-        {
-            //Debug.Log("Within bounds!");
-            if (_objectsGrid[tempRow, tempColumn] != null)
-            {
-                //Debug.Log("Object detected at " + tempRow + "," + tempColumn);
-                return false;
-            }
-            else if (_levelGrid[tempRow, tempColumn] == null)
-            {
-                //Debug.Log("No floor at " + tempRow + "," + tempColumn);
-                return false;
-            }
-            else
-            {
-                //Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
-                UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
 
-                return true;
+        Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
+
+        if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
+        {
+            //Debug.Log("Not moving onto path!");
+            return false;
+        }
+
+        if (_levelGrid[tempRow, tempColumn].GetIDSpecific == "YPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "RPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "BPP")
+        {
+            // _worldRef.ActivatePressurePlate(tempRow, tempColumn);
+        }
+        if (_levelGrid[row, column].GetIDSpecific == "YPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "RPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "BPP")
+        {
+            //_worldRef.ActivatePressurePlate(tempRow, tempColumn);
+        }
+
+        //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
+
+        //Debug.Log("Within bounds!");
+        if (_objectsGrid[tempRow, tempColumn] != null)
+        {
+            //Debug.Log("Object detected at " + tempRow + "," + tempColumn);
+            return false;
+        }
+        else if (_levelGrid[tempRow, tempColumn] == null)
+        {
+            //Debug.Log("No floor at " + tempRow + "," + tempColumn);
+            return false;
+        }
+        else if (_levelGrid[tempRow, tempColumn].GetIDType == "B" || _levelGrid[tempRow, tempColumn].GetIDType == "CB")
+        {
+            //Debug.Log("Walking onto a bridge!");
+            //if (!_worldRef.IsBridgeActive(tempRow, tempColumn))
+            if (false) //delete this
+            {
+                //Debug.Log("Bridge inactive, can't cross!");
+                return false;
+            }
+            //Debug.Log("Bridge active, crossing!");
+        }
+        if (_levelGrid[row, column].GetIDType == "B" || _levelGrid[tempRow, tempColumn].GetIDType == "B")
+        {
+            if (_levelGrid[row, column].GetIDSpecific == "H" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "H")
+            {
+                if (horizontalMove == 0)
+                {
+                    //Debug.Log("Can't move vertically onto horizontal bridge!");
+                    return false;
+                }
+            }
+            if (_levelGrid[row, column].GetIDSpecific == "V" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "V")
+            {
+                if (horizontalMove != 0)
+                {
+                    //Debug.Log("Can't move horizontally onto vertical bridge!");
+                    return false;
+                }
             }
         }
+        else if (_levelGrid[row, column].GetIDType == "CB")
+        {
+            //walking off of a corner bridge
+            if (horizontalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("R"))
+            {
+                return false;
+            }
+            if (horizontalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("L"))
+            {
+                return false;
+            }
+            if (verticalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("D"))
+            {
+                return false;
+            }
+            if (verticalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("U"))
+            {
+                return false;
+            }
+        }
+        if (_levelGrid[tempRow, tempColumn].GetIDType == "CB")
+        {
+            //walking onto a corner bridge
+            if (horizontalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("R"))
+            {
+                return false;
+            }
+            if (horizontalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("L"))
+            {
+                return false;
+            }
+            if (verticalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("D"))
+            {
+                return false;
+            }
+            if (verticalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("U"))
+            {
+                return false;
+            }
+        }
+
+        //Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
+        UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
+        return true;
     }
 
     //-B
@@ -232,6 +304,27 @@ public static class GridHandler
         }
         return false;
     }
+
+    /*
+     Move this to WorldHandler 
+
+    //Take this out for merging
+    public void ActivatePressurePlate(int xPos, int zPos)
+    {
+        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().ActivatePressurePlate();
+    }
+
+    public void DeactivatePressurePlate(int xPos, int zPos)
+    {
+        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().DeactivatePressurePlate();
+    }
+    
+    public bool IsBridgeActive(int xPos, int zPos)
+    {
+        return true;
+        //get if the bridge at that spot can be stepped on or not
+    }
+*/
 
     //Various Getters and Setters
     public static DataSpace[,] CheckFloorLayout { get { return _levelGrid; } }

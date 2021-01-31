@@ -1,8 +1,8 @@
 X/X/X/X/X/X/X
 X/P/F:G/F:G/F:G/F:G/X
+X/F:G/F:G/CB:DL/CB:UL/F:LP/X
 X/F:G/F:G/F:G/F:G/F:LP/X
-X/F:G/F:G/F:G/F:G/F:LP/X
-X/F:G/F:G/YL:E/F:LP/F:LP/X
+X/F:G/CB:DR/F:G/CB:UR/F:LP/X
 X/F:G/F:G/F:G/F:G/F:G/X
-X/F:G/F:G/F:G/F:G/F:G/X
+X/R/F:G/F:G/F:G/F:G/X
 X/X/X/X/X/X/X
