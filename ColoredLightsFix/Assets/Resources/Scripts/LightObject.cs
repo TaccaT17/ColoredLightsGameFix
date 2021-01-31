@@ -9,8 +9,7 @@ public class LightObject : MonoBehaviour
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool Stepable = false;
     
-    [SerializeField]
-    bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
+    public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
