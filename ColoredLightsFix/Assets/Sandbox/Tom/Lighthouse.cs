@@ -36,4 +36,6 @@ public class Lighthouse : MonoBehaviour
         }
     }
 
+    public GameManager.ColorOfLight GetLighthouseColor { get { return color; } }
+
 }

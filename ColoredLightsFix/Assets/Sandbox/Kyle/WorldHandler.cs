@@ -23,7 +23,8 @@ public class WorldHandler : MonoBehaviour
     GameObject _bridgeOBJ;
     GameObject _cornerObjectOBJ;
     GameObject _wallOBJ;
-    GameObject _rockOBJ;
+    GameObject _rockOBJ; 
+    GameObject _chestOBJ;
 
     GameObject[,] _floorTracker;
     GameObject[,] _objectTracker;
@@ -43,6 +44,7 @@ public class WorldHandler : MonoBehaviour
         _cornerObjectOBJ = Resources.Load<GameObject>("Prefabs/CornerBridge");
         _wallOBJ = Resources.Load<GameObject>("Prefabs/Wall");
         _rockOBJ = Resources.Load<GameObject>("Prefabs/Rock");
+        _chestOBJ = Resources.Load<GameObject>("Prefabs/Chest");
 
         GridHandler.SetWorldRef = this;
         GridHandler.LoadLevel(LevelName);
@@ -78,6 +80,10 @@ public class WorldHandler : MonoBehaviour
                 newobject = null;
                 newfloor = CheckWhatFloor(id[1], spawnPos);
                 break;
+            case "E":
+                newobject = Instantiate<GameObject>(_chestOBJ, spawnPos, _chestOBJ.transform.rotation, transform);
+                newfloor = Instantiate<GameObject>(_pathTileFloorOBJ, spawnPos, _pathTileFloorOBJ.transform.rotation, transform);
+                break;
             case "RL":
                 //Debug.Log("light source made");
 
@@ -86,8 +92,9 @@ public class WorldHandler : MonoBehaviour
                 newobject.GetComponent<MovableObject>().bCanRotate = true;
                 newobject.AddComponent<Lighthouse>();
                 newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.red;
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Lighthouse>());
                 CheckObjectOrientation(id[1], newobject);
+                FindCorrectPressurePlate("RPP", newobject.GetComponent<Lighthouse>());
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
@@ -99,8 +106,9 @@ public class WorldHandler : MonoBehaviour
                 newobject.GetComponent<MovableObject>().bCanRotate = true;
                 newobject.AddComponent<Lighthouse>();
                 newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.blue;
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Lighthouse>());
                 CheckObjectOrientation(id[1], newobject);
+                FindCorrectPressurePlate("BPP", newobject.GetComponent<Lighthouse>());
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
@@ -112,8 +120,9 @@ public class WorldHandler : MonoBehaviour
                 newobject.GetComponent<MovableObject>().bCanRotate = true;
                 newobject.AddComponent<Lighthouse>();
                 newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.yellow;
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Lighthouse>());
                 CheckObjectOrientation(id[1], newobject);
+                FindCorrectPressurePlate("YPP", newobject.GetComponent<Lighthouse>());
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
@@ -121,11 +130,7 @@ public class WorldHandler : MonoBehaviour
                 //Debug.Log("bridge made");
                 newobject = null;
                 newfloor = Instantiate<GameObject>(_bridgeOBJ, spawnPos, _bridgeOBJ.transform.rotation, transform);
-                if (id[1] == "V")
-                {
-                    newfloor.transform.Rotate(Vector3.up, 90);
-                }
-                //add script to brdige to do cool color stuff
+                SetUpBridge(id[1], id[2], newfloor);
                 break;
             case "CB":
                 //Debug.Log("bridge made");
@@ -167,12 +172,19 @@ public class WorldHandler : MonoBehaviour
         {
             case "RPP":
                 thingtospawn = Instantiate<GameObject>(_rPressurePlateOBJ, spawnPos, _rPressurePlateOBJ.transform.rotation, transform);
+                thingtospawn.AddComponent<PressurePlate>();
+                FindCorrectLighthouse(GameManager.ColorOfLight.red, thingtospawn.GetComponent<PressurePlate>());
+
                 break;
             case "BPP":
                 thingtospawn = Instantiate<GameObject>(_bPressurePlateOBJ, spawnPos, _bPressurePlateOBJ.transform.rotation, transform);
+                thingtospawn.AddComponent<PressurePlate>();
+                FindCorrectLighthouse(GameManager.ColorOfLight.blue, thingtospawn.GetComponent<PressurePlate>());
                 break;
             case "YPP":
                 thingtospawn = Instantiate<GameObject>(_yPressurePlateOBJ, spawnPos, _yPressurePlateOBJ.transform.rotation, transform);
+                thingtospawn.AddComponent<PressurePlate>();
+                FindCorrectLighthouse(GameManager.ColorOfLight.blue, thingtospawn.GetComponent<PressurePlate>());
                 break;
             case "G":
                 thingtospawn = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
@@ -206,19 +218,67 @@ public class WorldHandler : MonoBehaviour
         }
     }
 
-    private void CheckCornerBridgeOrientation(string dir, GameObject toRotate)
+    private void SetUpBridge(string color, string orientaion, GameObject bridge)
+    {
+        switch (color)
+        {
+
+            default:
+                break;
+        }
+
+
+
+        if(orientaion == "V")
+        {
+
+        }
+    }
+
+    private void CheckCornerBridgeOrientation(string dir, GameObject cornerBridge)
     {
         if (dir == "DL")
         {
-            toRotate.transform.Rotate(Vector3.up, 90);
+            cornerBridge.transform.Rotate(Vector3.up, 90);
         }
         else if (dir == "UL")
         {
-            toRotate.transform.Rotate(Vector3.up, 180);
+            cornerBridge.transform.Rotate(Vector3.up, 180);
         }
         else if (dir == "UR")
         {
-            toRotate.transform.Rotate(Vector3.up, 270);
+            cornerBridge.transform.Rotate(Vector3.up, 270);
+        }
+    }
+
+    private void FindCorrectPressurePlate(string id, Lighthouse lighthouse)
+    {
+        for (int i = 0; i < _floorTracker.GetLength(0); i++)
+        {
+            for (int j = 0; j < _floorTracker.GetLength(1); j++)
+            {
+                if(GridHandler.CheckFloorLayout[i, j] != null && GridHandler.CheckFloorLayout[i,j].GetIDSpecific == id)
+                {
+                    _floorTracker[i, j].GetComponent<PressurePlate>().lightHouseRef = lighthouse;
+                }
+            }
+        }
+    }
+
+    private void FindCorrectLighthouse(GameManager.ColorOfLight color, PressurePlate plate)
+    {
+        for (int i = 0; i < _floorTracker.GetLength(0); i++)
+        {
+            for (int j = 0; j < _floorTracker.GetLength(1); j++)
+            {
+                if ( GridHandler.CheckObjectLayout[i, j] != null && GridHandler.CheckObjectLayout[i, j].GetType() == typeof(Lighthouse))
+                {
+                    if(_objectTracker[i,j].GetComponent<Lighthouse>().GetLighthouseColor == color)
+                    {
+                        plate.lightHouseRef = _objectTracker[i, j].GetComponent<Lighthouse>();
+                    }
+                }
+            }
         }
     }
 
