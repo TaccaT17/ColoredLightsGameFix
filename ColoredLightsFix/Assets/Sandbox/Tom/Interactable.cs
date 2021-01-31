@@ -6,7 +6,8 @@ public enum eInteractTypes
 {
     move,
     rotClockwise,
-    rotAntiClockwise
+    rotAntiClockwise,
+    exit
 }
 
 public interface Interactable

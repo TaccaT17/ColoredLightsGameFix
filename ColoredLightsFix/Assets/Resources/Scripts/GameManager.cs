@@ -42,11 +42,9 @@ public class GameManager : MonoBehaviour
           "Level3",
           "Level4",
           "Level5",
-          "Level6",
-          "Level7",
-          "Level8",  };
+          "Level6"  };
 
-        leveltrack = 0;
+        leveltrack = -1;
     }
 
     public Component GetOrCreateComponent<T>(out T component, GameObject gO) where T : Component
