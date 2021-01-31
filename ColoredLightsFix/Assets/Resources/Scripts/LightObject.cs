@@ -12,8 +12,10 @@ public class LightObject : MonoBehaviour
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
 
-    private MeshRenderer meshRendererRef;
-    private Collider colliderRef;
+    public bool debugRedLit;
+
+    public MeshRenderer meshRendererRef;
+    public Collider colliderRef;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     #endregion
 
@@ -26,6 +28,16 @@ public class LightObject : MonoBehaviour
         Init();
     }
 
+    void Update()
+    {
+        if (debugRedLit && !litBy[GameManager.ColorOfLight.red].currentLit)
+        {
+            Light tempLight;
+            tempLight = litBy[GameManager.ColorOfLight.red];
+            tempLight.currentLit = true;
+            litBy[GameManager.ColorOfLight.red] = tempLight;
+        }
+    }
     
     private void LateUpdate()
     {
@@ -150,11 +162,11 @@ public class LightObject : MonoBehaviour
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.isTrigger = false;
+            colliderRef.enabled = true;
         }
         else
         {
-            colliderRef.isTrigger = true;
+            colliderRef.enabled = false;
         }
 
     }

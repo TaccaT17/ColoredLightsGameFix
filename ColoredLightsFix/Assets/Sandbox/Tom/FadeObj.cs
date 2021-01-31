@@ -53,9 +53,9 @@ public class FadeObj : MonoBehaviour
         float normalizedTime = 0;
         while (normalizedTime < 1f)
         {
-            Color color = fadeGORenderer.material.color;
+            Color color = fadeGORenderer.material.GetColor("_BaseColor");
             color.a = normalizedTime;
-            fadeGORenderer.material.color = color;
+            fadeGORenderer.material.SetColor("_BaseColor", color);
             normalizedTime += Time.deltaTime / fadeOutTime;
             yield return null;
         }
@@ -68,7 +68,7 @@ public class FadeObj : MonoBehaviour
         float normalizedTime = 0;
         while (normalizedTime < 1f)
         {
-            normalizedTime += Time.deltaTime / fadeOutTime;
+            normalizedTime += Time.deltaTime / blackOutTime;
             yield return null;
         }
 
@@ -80,10 +80,10 @@ public class FadeObj : MonoBehaviour
         float normalizedTime = 0;
         while (normalizedTime < 1f)
         {
-            Color color = fadeGORenderer.material.color;
+            Color color = fadeGORenderer.material.GetColor("_BaseColor");
             color.a = 1f - normalizedTime;
-            fadeGORenderer.material.color = color;
-            normalizedTime += Time.deltaTime / fadeOutTime;
+            fadeGORenderer.material.SetColor("_BaseColor", color);
+            normalizedTime += Time.deltaTime / fadeInTime;
             yield return null;
         }
     }
