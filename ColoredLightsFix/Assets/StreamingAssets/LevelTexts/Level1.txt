@@ -1,4 +1,6 @@
-CB:DR
-B:V
-B:V
-B:V
+F:G/F:G/F:G/F:G/Exit?/F:G
+F:G/F:G/F:WP/F:WP/F:G/F:G
+X/X/B:VB/X/X/X
+X/X/B:VB/X/X/X
+F:G/F:G/F:WP/F:WP/F:G/F:G
+F:G/P/F:LP/F:LP/BL:E/F:G
