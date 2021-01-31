@@ -22,6 +22,9 @@ public class GameManager : MonoBehaviour
         blue
     }
 
+    public string[] levels;
+    private int leveltrack;
+
     void Awake()
     {
         if(S == null)
@@ -32,6 +35,18 @@ public class GameManager : MonoBehaviour
         {
             Destroy(this);
         }
+
+        levels = new string[] 
+        { "Level1",
+          "Level2",
+          "Level3",
+          "Level4",
+          "Level5",
+          "Level6",
+          "Level7",
+          "Level8",  };
+
+        leveltrack = 0;
     }
 
     public Component GetOrCreateComponent<T>(out T component, GameObject gO) where T : Component
@@ -49,4 +64,16 @@ public class GameManager : MonoBehaviour
         return component;
     }
 
+    public void LoadNextLevel()
+    {
+        leveltrack += 1;
+        if(leveltrack > levels.Length)
+        {
+            //endgame
+        }
+        else
+        {
+            GridHandler.LoadLevel(levels[leveltrack]);
+        }
+    }
 }

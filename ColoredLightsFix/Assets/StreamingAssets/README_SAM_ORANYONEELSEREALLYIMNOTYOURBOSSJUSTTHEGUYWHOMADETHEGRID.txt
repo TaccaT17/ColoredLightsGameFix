@@ -26,9 +26,11 @@ W = wall, can change direction of wall with "N,S,E,W" (Cardinal directions) afte
 R* = Rock prefab
 P* = player (you can put as many as you want since we dont have movement yet)
 YL*, BL*, RL* = (Yellow, Blue, Red) Lighthouse, denote direction with "N,S,E,W"(Cardinal direction) after a ":" (YL:S)
-B = Bridge, denote direction by horizontal and vertical (H or V) after a ":" (B:H)
-CB = Corner Bridge, denote with opens (Up, Down, Left, Right)
 
+B = Bridge, denote direction by horizontal and vertical (H or V) after a ":" (B:H)
+CB = Corner Bridge, denote with opens (Up, Down, Left, Right) (UL,UR,DL,DR)
+	^^^for these bridges the creation is "Bridge type:color:direction"
+	colors: red "R", blue "B", yellow "Y", Purple "P", Orange "O", Green "G"
 
 *putting a these puts a designated floor tile underneath them, dont O/OP/O or O/LO/O
 	LightHouses get Lighthouse Path
