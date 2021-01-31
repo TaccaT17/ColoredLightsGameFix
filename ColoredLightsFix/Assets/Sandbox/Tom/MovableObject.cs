@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovableObject : MonoBehaviour
+public class MovableObject : Movable, Interactable
 {
     [SerializeField]
     private float unitDistance = 1f;
@@ -26,6 +26,11 @@ public class MovableObject : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    public void Interact()
+    {
+        Debug.Log("Interacted with!");
     }
 
 }

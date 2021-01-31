@@ -61,12 +61,12 @@ public class WorldHandler : MonoBehaviour
         GameObject newfloor = null;
         GameObject newobject = null;
 
-        
+
 
         switch (id[0])
         {
             case "P":
-                Debug.Log("player made");
+                //Debug.Log("player made");
                 newobject = Instantiate<GameObject>(_playerOBJ, spawnPos, _playerOBJ.transform.rotation, transform);
                 newobject.AddComponent<Player>();
                 newobject.GetComponent<Player>().Init(xPos, zPos);
@@ -74,13 +74,13 @@ public class WorldHandler : MonoBehaviour
                 newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;
             case "F":
-                Debug.Log("tile made");
+                //Debug.Log("tile made");
                 newobject = null;
                 newfloor = CheckWhatFloor(id[1], spawnPos);
                 break;
             case "RL":
-                Debug.Log("light source made");
-               
+                //Debug.Log("light source made");
+
                 newobject = Instantiate<GameObject>(_rLightHouseOBJ, spawnPos, _rLightHouseOBJ.transform.rotation, transform);
                 newobject.AddComponent<Obstacle>();
                 GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
@@ -89,8 +89,8 @@ public class WorldHandler : MonoBehaviour
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
             case "BL":
-                Debug.Log("light source made");
-                
+                //Debug.Log("light source made");
+
                 newobject = Instantiate<GameObject>(_bLightHouseOBJ, spawnPos, _bLightHouseOBJ.transform.rotation, transform);
                 newobject.AddComponent<Obstacle>();
                 GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
@@ -99,8 +99,8 @@ public class WorldHandler : MonoBehaviour
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
             case "YL":
-                Debug.Log("light source made");
-                
+                //Debug.Log("light source made");
+
                 newobject = Instantiate<GameObject>(_yLightHouseOBJ, spawnPos, _yLightHouseOBJ.transform.rotation, transform);
                 newobject.AddComponent<Obstacle>();
                 GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
@@ -109,7 +109,7 @@ public class WorldHandler : MonoBehaviour
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
             case "B":
-                Debug.Log("bridge made");
+                //Debug.Log("bridge made");
                 newobject = null;
                 newfloor = Instantiate<GameObject>(_bridgeOBJ, spawnPos, _bridgeOBJ.transform.rotation, transform);
                 if (id[1] == "V")
@@ -119,27 +119,29 @@ public class WorldHandler : MonoBehaviour
                 //add script to brdige to do cool color stuff
                 break;
             case "CB":
-                Debug.Log("bridge made");
+                //Debug.Log("bridge made");
                 newobject = null;
 
                 newfloor = Instantiate<GameObject>(_cornerObjectOBJ, spawnPos, _cornerObjectOBJ.transform.rotation, transform);
                 CheckCornerBridgeOrientation(id[1], newfloor);
                 break;
             case "W":
-                Debug.Log("wall made");
+                //Debug.Log("wall made");
                 newobject = Instantiate<GameObject>(_wallOBJ, spawnPos, _wallOBJ.transform.rotation, transform);
                 CheckObjectOrientation(id[1], newobject);
 
-                newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform); 
+                newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;
             case "R":
+                //Debug.Log("rock made");
                 newobject = Instantiate<GameObject>(_rockOBJ, spawnPos, _rockOBJ.transform.rotation, transform);
-                newobject.AddComponent<Obstacle>();
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>()); 
+                newobject.AddComponent<MovableObject>();
+                newobject.GetComponent<MovableObject>().Init(xPos, zPos);
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
                 newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;
             default:
-                Debug.Log("nothing made");
+                //Debug.Log("nothing made");
                 newobject = null;
                 newfloor = null;
                 break;
@@ -197,11 +199,11 @@ public class WorldHandler : MonoBehaviour
 
     private void CheckCornerBridgeOrientation(string dir, GameObject toRotate)
     {
-        if(dir == "DL")
+        if (dir == "DL")
         {
             toRotate.transform.Rotate(Vector3.up, 90);
         }
-        else if(dir == "UL")
+        else if (dir == "UL")
         {
             toRotate.transform.Rotate(Vector3.up, 180);
         }
@@ -219,4 +221,15 @@ public class WorldHandler : MonoBehaviour
         _objectTracker[xNew, zNew] = tempObj;
         tempObj.GetComponent<Movable>().coords = new int[] { xNew, zNew };
     }
+
+    public bool AttemptInteract(int xPos, int zPos)
+    {
+        if (_objectTracker[xPos, zPos].GetComponent<Interactable>() != null)
+        {
+            _objectTracker[xPos, zPos].GetComponent<Interactable>().Interact();
+            return true;
+        }
+        return false;
+    }
+
 }

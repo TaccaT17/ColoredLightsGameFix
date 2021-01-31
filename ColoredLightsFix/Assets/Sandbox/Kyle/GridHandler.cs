@@ -96,7 +96,7 @@ public static class GridHandler
                         newspace = new DataSpace(idLetters[0], idLetters[1]);
                         break;
                     case "F":
-                        newspace = new DataSpace(idLetters[0] ,idLetters[1]);
+                        newspace = new DataSpace(idLetters[0], idLetters[1]);
                         break;
                     case "BL":
                         newspace = new DataSpace("F", "LP");
@@ -130,7 +130,8 @@ public static class GridHandler
     //updates the data that the something has moved to a new position
     private static void UpdateGrid<T>(int xpos1, int zpos1, int xpos2, int zpos2, T thing)
     {
-        
+        //Debug.Log("New position: " + xpos2 + "," + zpos2 + ", is valid: " + (_objectsGrid[xpos2, zpos2] != null));
+
         T temp = thing;
         _objectsGrid[xpos1, zpos1] = null;
         _objectsGrid[xpos2, zpos2] = temp;
@@ -140,37 +141,38 @@ public static class GridHandler
 
     //called to move the player in any directions that are passed
     //data grids are changed and then reflected into the 3D objects
-    public static void AttemptMovePlayer(int row, int column, int verticalMove, int horizontalMove)
+    public static bool AttemptMoveObject(int row, int column, int verticalMove, int horizontalMove)
     {
 
-        Debug.Log("Position: " + row + "," + column);
+        //Debug.Log("Position: " + row + "," + column);
         int tempRow = row + verticalMove;
         int tempColumn = column + horizontalMove;
 
         Debug.Log("Moving to: " + tempRow + "," + tempColumn);
         if (!IsTileWithinBounds(tempRow, tempColumn))
         {
-            Debug.Log("Not within bounds!");
+            //Debug.Log("Not within bounds!");
+            return false;
         }
         else
         {
-            Debug.Log("Within bounds!");
+            //Debug.Log("Within bounds!");
             if (_objectsGrid[tempRow, tempColumn] != null)
             {
-                Debug.Log("Object detected at " + tempRow + "," + tempColumn);
+                //Debug.Log("Object detected at " + tempRow + "," + tempColumn);
+                return false;
             }
             else if (_levelGrid[tempRow, tempColumn] == null)
             {
-                Debug.Log("No floor at " + tempRow + "," + tempColumn);
+                //Debug.Log("No floor at " + tempRow + "," + tempColumn);
+                return false;
             }
             else
             {
                 Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
                 UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
-
-                _objectsGrid[tempRow, tempColumn] = _objectsGrid[row, column];
-                _objectsGrid[row, column] = null;
-
+                
+                return true;
             }
         }
     }
@@ -204,15 +206,16 @@ public static class GridHandler
 
     //gets the object the player is facing
     //activates the interaction interface if it is present
-    public static void AttemptInteract(int xPos, int zPos, int xFacing, int zFacing)
+    public static bool AttemptInteract(int xPos, int zPos, int xFacing, int zFacing)
     {
         if (_objectsGrid[xPos + xFacing, zPos + zFacing] != null)
         {
-            //if (_objectsGrid[xPos + xFacing, zPos + zFacing].GetComponent<IInteractable>() != null)
+            if (_worldRef.AttemptInteract(xPos + xFacing, zPos + zFacing))
             {
-
+                return true;
             }
         }
+        return false;
     }
 
     //Various Getters and Setters
