@@ -15,6 +15,8 @@ public class VolumetricLightMesh : MonoBehaviour
     private Light light;
     private MeshFilter filter;
 
+    private bool lightOn = true;
+
     [SerializeField]
     private List<LightObject> _objectsHit;
 
@@ -32,6 +34,11 @@ public class VolumetricLightMesh : MonoBehaviour
     List<Vector3> points;
     List<Vector3> cubes;
 
+    [Header("Debug")]
+    [SerializeField]
+    bool turnOff;
+    [SerializeField]
+    bool turnOn;
 
     Quaternion rotation;
 
@@ -70,6 +77,18 @@ public class VolumetricLightMesh : MonoBehaviour
 
         }
 
+        if (turnOff)
+        {
+            turnOff = false;
+            TurnOffLightMesh();
+        }
+
+        if (turnOn)
+        {
+            turnOn = false;
+            TurnOnLightMesh();
+        }
+
         float angle = light.spotAngle / 2f;
 
         //Debug.DrawRay(transform.position, transform.forward + new Vector3(0, Mathf.Lerp(transform.forward.y - angle, transform.forward.y + angle, Time.deltaTime * lerpSpeed)));
@@ -83,12 +102,15 @@ public class VolumetricLightMesh : MonoBehaviour
 
         //if (rotation != transform.rotation)
         //{
+        if (lightOn)
+        {
             rotation = transform.rotation;
-            if(mesh) mesh.Clear();
+            if (mesh) mesh.Clear();
             mesh = GenerateVolumeMesh();
             //BuildMesh();
             filter.mesh = mesh;
             //Debug.Log(mesh.vertices[1]) ;
+        }
         //}
     }
 
@@ -106,6 +128,27 @@ public class VolumetricLightMesh : MonoBehaviour
         }
     }
     */
+
+    public void TurnOffLightMesh()
+    {
+        lightOn = false;
+
+        if (mesh) mesh.Clear();
+
+        for (int i = 0; i < _objectsHit.Count; i++)
+        {
+            _objectsHit[i].UnLit(lightColor);
+        }
+
+        _objectsHit.Clear();
+        light.enabled = false;
+    }
+
+    public void TurnOnLightMesh()
+    {
+        lightOn = true;
+        light.enabled = true;
+    }
 
     private Mesh GenerateVolumeMesh()
     {
