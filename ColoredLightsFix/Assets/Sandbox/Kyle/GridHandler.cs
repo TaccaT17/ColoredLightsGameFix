@@ -172,11 +172,11 @@ public static class GridHandler
 
         if (_levelGrid[tempRow, tempColumn].GetIDSpecific == "YPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "RPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "BPP")
         {
-            // _worldRef.ActivatePressurePlate(tempRow, tempColumn);
+            _worldRef.ActivatePressurePlate(tempRow, tempColumn);
         }
         if (_levelGrid[row, column].GetIDSpecific == "YPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "RPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "BPP")
         {
-            //_worldRef.ActivatePressurePlate(tempRow, tempColumn);
+            _worldRef.ActivatePressurePlate(tempRow, tempColumn);
         }
 
         //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
@@ -197,10 +197,10 @@ public static class GridHandler
             //Debug.Log("Walking onto a bridge!");
             if (!_worldRef.IsBridgeActive(tempRow, tempColumn))
             {
-                Debug.Log("Bridge inactive, can't cross!");
+                //Debug.Log("Bridge inactive, can't cross!");
                 return false;
             }
-            Debug.Log("Bridge active, crossing!");
+            //Debug.Log("Bridge active, crossing!");
         }
         if (_levelGrid[row, column].GetIDType == "B" || _levelGrid[tempRow, tempColumn].GetIDType == "B")
         {
@@ -208,7 +208,7 @@ public static class GridHandler
             {
                 if (horizontalMove == 0)
                 {
-                    Debug.Log("Can't move vertically onto horizontal bridge!");
+                    //Debug.Log("Can't move vertically onto horizontal bridge!");
                     return false;
                 }
             }
@@ -216,7 +216,7 @@ public static class GridHandler
             {
                 if (horizontalMove != 0)
                 {
-                    Debug.Log("Can't move horizontally onto vertical bridge!");
+                    //Debug.Log("Can't move horizontally onto vertical bridge!");
                     return false;
                 }
             }
