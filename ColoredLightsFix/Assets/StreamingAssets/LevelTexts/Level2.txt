@@ -1,6 +1,6 @@
 F:G/F:G/X/X/X/X
 F:G/F:G/F:G/X/X/X
-P/RL:E/F:G/B:HR/B:HR/F:G
+P/RL:E/F:G/B:R:H/B:R:H/F:G
 F:G/F:G/X/X/X/F:G
-F:G/R/F:RPP/X/X/Exit?
+F:G/R/F:RPP/X/X/E
 F:G/F:G/X/X/X/X

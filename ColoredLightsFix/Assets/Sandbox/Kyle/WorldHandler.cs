@@ -137,7 +137,7 @@ public class WorldHandler : MonoBehaviour
                 newobject = null;
 
                 newfloor = Instantiate<GameObject>(_cornerObjectOBJ, spawnPos, _cornerObjectOBJ.transform.rotation, transform);
-                CheckCornerBridgeOrientation(id[1], newfloor);
+                SetUpCornerBridge(id[1], id[2], newfloor);
                 break;
             case "W":
                 //Debug.Log("wall made");
@@ -222,30 +222,75 @@ public class WorldHandler : MonoBehaviour
     {
         switch (color)
         {
-
+            case "R":
+                bridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true;
+                break;
+            case "Y":
+                bridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                break;
+            case "G":
+                bridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                bridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
+            case "B":
+                bridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
+            case "O":
+                bridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true;
+                bridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                break;
+            case "P":
+                bridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true; 
+                bridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
             default:
                 break;
         }
 
-
-
         if(orientaion == "V")
         {
-
+            bridge.transform.Rotate(Vector3.up, 90);
         }
     }
 
-    private void CheckCornerBridgeOrientation(string dir, GameObject cornerBridge)
+    private void SetUpCornerBridge(string color, string orientaion, GameObject cornerBridge)
     {
-        if (dir == "DL")
+        switch (color)
+        {
+            case "R":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true;
+                break;
+            case "Y":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                break;
+            case "G":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
+            case "B":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
+            case "O":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true;
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.yellowLitsNeeded = true;
+                break;
+            case "P":
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.redLitsNeeded = true;
+                cornerBridge.GetComponent<LightObjectSeer>().lightobject.blueLitsNeeded = true;
+                break;
+            default:
+                break;
+        }
+
+        if (orientaion == "DL")
         {
             cornerBridge.transform.Rotate(Vector3.up, 90);
         }
-        else if (dir == "UL")
+        else if (orientaion == "UL")
         {
             cornerBridge.transform.Rotate(Vector3.up, 180);
         }
-        else if (dir == "UR")
+        else if (orientaion == "UR")
         {
             cornerBridge.transform.Rotate(Vector3.up, 270);
         }
@@ -307,4 +352,26 @@ public class WorldHandler : MonoBehaviour
         return _objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null;
     }
 
+    public void ResetLevel()
+    {
+        for (int i = 0; i < _floorTracker.GetLength(0); i++)
+        {
+            for (int j = 0; j < _floorTracker.GetLength(1); j++)
+            {
+                if(_floorTracker[i, j] != null)
+                {
+                    Destroy(_floorTracker[i, j].gameObject);
+                    _floorTracker[i, j] = null;
+                }
+
+                if (_objectTracker[i, j] != null)
+                {
+                    Destroy(_objectTracker[i, j].gameObject);
+                    _objectTracker[i, j] = null;
+                }
+            }
+        }
+
+        GridHandler.UnloadLevel();
+    }
 }

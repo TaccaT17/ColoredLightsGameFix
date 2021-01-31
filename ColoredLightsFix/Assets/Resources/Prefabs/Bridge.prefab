@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4942616793139868070}
+  - component: {fileID: 7468314879871826689}
   m_Layer: 0
   m_Name: Bridge
   m_TagString: Untagged
@@ -31,6 +32,37 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7468314879871826689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4942616793139868069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f9e910d4ade524ab46f6b1d55db4b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightobject: {fileID: 1252142815563447633}
+--- !u!114 &1252142815563447633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5273962839714983059}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c008538f67468428c867de8bbf72cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redLitsNeeded: 0
+  yellowLitsNeeded: 0
+  blueLitsNeeded: 0
+  debugRedLit: 0
+  meshRendererRef: {fileID: 3328750690313900289}
+  colliderRef: {fileID: 9194195787280967810}
 --- !u!1001 &4942616792513001944
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,6 +135,24 @@ PrefabInstance:
 --- !u!4 &4836033344621993523 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4942616792513001944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5273962839714983059 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 983845803532244299, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4942616792513001944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &3328750690313900289 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 7684736170636421337, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
+    type: 3}
+  m_PrefabInstance: {fileID: 4942616792513001944}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &9194195787280967810 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: 4255879185904980314, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
     type: 3}
   m_PrefabInstance: {fileID: 4942616792513001944}
   m_PrefabAsset: {fileID: 0}
