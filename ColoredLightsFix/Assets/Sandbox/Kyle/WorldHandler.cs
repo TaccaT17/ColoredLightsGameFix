@@ -348,8 +348,27 @@ public class WorldHandler : MonoBehaviour
 
     public bool IsObjectLighthouse(int xPos, int zPos)
     {
-        Debug.Log("Is lighthouse: " + (_objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null));
+        //Debug.Log("Is lighthouse: " + (_objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null));
         return _objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null;
+    }
+    
+    public void ActivatePressurePlate(int xPos, int zPos)
+    {
+        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().ActivatePressurePlate();
+    }
+
+    public void DeactivatePressurePlate(int xPos, int zPos)
+    {
+        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().DeactivatePressurePlate();
+    }
+
+    public bool IsBridgeActive(int xPos, int zPos)
+    {
+        print("Is bridge Valid: " + _floorTracker[xPos, zPos] != null);
+        print("Bridge name: " + _floorTracker[xPos, zPos].ToString());
+        Debug.Log("Is Seer Valid: " + _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>() != null);
+        Debug.Log("Is LO Valid: " + _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>().lightobject != null);
+        return _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>().lightobject.Stepable;
     }
 
     public void ResetLevel()
