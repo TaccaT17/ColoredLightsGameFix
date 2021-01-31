@@ -1,0 +1,15 @@
+aye bro i added like a lot of new things to the handler scripts, lots of new syntax for the text documents
+read the README over there to learn more
+
+your movement should still work, but just in case, check everything
+
+also the lighthouse paths are in so pushing and pulling can commence
+
+my Dataspace scripts now have a Primary identifier and a secondary one.
+	ex) "F:G" = Floor, Grass
+	    "F:LP" = Floor, Lighthouse Path
+
+
+i think that that is it... but yeah lots of new syntax
+
+glhf

@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class DataSpace
 {
-    string _identifier;
+    string _identifierType;
+    string _identifierDetail;
 
-    public DataSpace(string id)
+    public DataSpace(string type, string detail)
     {
-        _identifier = id;
+        _identifierType = type;
+        _identifierDetail = detail;
     }
 
-    public string GetID { get { return _identifier; } }
+    public string GetIDType { get { return _identifierType; } }
+    public string GetIDSpecific { get { return _identifierDetail; } }
 
 }

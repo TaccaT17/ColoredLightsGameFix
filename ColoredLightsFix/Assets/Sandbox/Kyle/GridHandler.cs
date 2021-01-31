@@ -79,29 +79,45 @@ public static class GridHandler
             for (int j = 0; j < columns; j++)
             {
                 DataSpace newspace = null;
-                switch (data[i, j])
+
+                string[] idLetters = Regex.Split(data[i, j], ":");
+                switch (idLetters[0])
                 {
+                    case "R":
+                        newspace = new DataSpace("F", "G");
+                        break;
                     case "P":
-                        newspace = new DataSpace("O");
+                        newspace = new DataSpace("F", "G");
                         break;
                     case "B":
-                    case "O":
-                        newspace = new DataSpace(data[i, j]);
+                        newspace = new DataSpace(idLetters[0], idLetters[1]);
                         break;
-                    case "L":
-                        newspace = new DataSpace("O");
+                    case "CB":
+                        newspace = new DataSpace(idLetters[0], idLetters[1]);
+                        break;
+                    case "F":
+                        newspace = new DataSpace(idLetters[0] ,idLetters[1]);
+                        break;
+                    case "BL":
+                        newspace = new DataSpace("F", "LP");
+                        break;
+                    case "RL":
+                        newspace = new DataSpace("F", "LP");
+                        break;
+                    case "YL":
+                        newspace = new DataSpace("F", "LP");
                         break;
                     case "W":
-                        newspace = new DataSpace("X");
+                        newspace = new DataSpace("F", "G");
                         break;
                     default:
-                        newspace = new DataSpace("X");
+                        newspace = new DataSpace("X", "X");
                         break;
                 }
 
                 _objectsGrid[i, j] = null;
                 _levelGrid[i, j] = newspace;
-                _worldRef.Populate3DLevel(i, j, data[i, j]);
+                _worldRef.Populate3DLevel(i, j, idLetters);
             }
         }
     }
@@ -114,6 +130,7 @@ public static class GridHandler
     //updates the data that the something has moved to a new position
     private static void UpdateGrid<T>(int xpos1, int zpos1, int xpos2, int zpos2, T thing)
     {
+        
         T temp = thing;
         _objectsGrid[xpos1, zpos1] = null;
         _objectsGrid[xpos2, zpos2] = temp;
@@ -161,7 +178,7 @@ public static class GridHandler
     //-B
     private static bool IsTileWithinBounds(int row, int column)
     {
-        if (row < 0 || column < 0 || row > _levelGrid.GetLength(0) - 1 || column > _levelGrid.GetLength(1) - 1 || _levelGrid[row, column].GetID == "X")
+        if (row < 0 || column < 0 || row > _levelGrid.GetLength(0) - 1 || column > _levelGrid.GetLength(1) - 1 || _levelGrid[row, column].GetIDType == "X")
         {
             return false;
         }

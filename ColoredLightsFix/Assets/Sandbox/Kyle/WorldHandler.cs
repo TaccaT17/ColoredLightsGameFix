@@ -1,32 +1,38 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Net;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class WorldHandler : MonoBehaviour
 {
     public string LevelName;
 
     GameObject _playerOBJ;
-    GameObject _floorOBJ;
+    GameObject _grassTileFloorOBJ;
+    GameObject _pathTileFloorOBJ;
+    GameObject _lighthouseTileFloorOBJ;
     GameObject _yLightHouseOBJ;
     GameObject _bLightHouseOBJ;
     GameObject _rLightHouseOBJ;
     GameObject _yPressurePlateOBJ;
     GameObject _bPressurePlateOBJ;
     GameObject _rPressurePlateOBJ;
-
     GameObject _bridgeOBJ;
     GameObject _cornerObjectOBJ;
     GameObject _wallOBJ;
+    GameObject _rockOBJ;
 
     GameObject[,] _floorTracker;
     GameObject[,] _objectTracker;
     private void Awake()
     {
         _playerOBJ = Resources.Load<GameObject>("Prefabs/Player");
-        _floorOBJ = Resources.Load<GameObject>("Prefabs/Tile");
+        _grassTileFloorOBJ = Resources.Load<GameObject>("Prefabs/TileGrass");
+        _pathTileFloorOBJ = Resources.Load<GameObject>("Prefabs/TilePath");
+        _lighthouseTileFloorOBJ = Resources.Load<GameObject>("Prefabs/TileLighthouse");
         _yLightHouseOBJ = Resources.Load<GameObject>("Prefabs/YellowLighthouse");
         _bLightHouseOBJ = Resources.Load<GameObject>("Prefabs/BlueLighthouse");
         _rLightHouseOBJ = Resources.Load<GameObject>("Prefabs/RedLighthouse");
@@ -36,6 +42,7 @@ public class WorldHandler : MonoBehaviour
         _bridgeOBJ = Resources.Load<GameObject>("Prefabs/Bridge");
         _cornerObjectOBJ = Resources.Load<GameObject>("Prefabs/CornerBridge");
         _wallOBJ = Resources.Load<GameObject>("Prefabs/Wall");
+        _rockOBJ = Resources.Load<GameObject>("Prefabs/Rock");
 
         GridHandler.SetWorldRef = this;
         GridHandler.LoadLevel(LevelName);
@@ -47,77 +54,89 @@ public class WorldHandler : MonoBehaviour
         _objectTracker = new GameObject[width, length];
     }
 
-    public void Populate3DLevel(int xPos, int zPos, string id)
+    public void Populate3DLevel(int xPos, int zPos, string[] id)
     {
         Vector3 spawnPos = new Vector3(transform.position.x + xPos, transform.position.y, transform.position.z + zPos);
 
         GameObject newfloor = null;
         GameObject newobject = null;
 
+        
+
         switch (id[0])
         {
-            case 'P':
+            case "P":
                 Debug.Log("player made");
                 newobject = Instantiate<GameObject>(_playerOBJ, spawnPos, _playerOBJ.transform.rotation, transform);
                 newobject.AddComponent<Player>();
                 newobject.GetComponent<Player>().Init(xPos, zPos);
                 GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Player>());
-                newfloor = Instantiate<GameObject>(_floorOBJ, spawnPos, _floorOBJ.transform.rotation, transform);
+                newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;
-            case 'O':
+            case "F":
                 Debug.Log("tile made");
                 newobject = null;
-                newfloor = Instantiate<GameObject>(_floorOBJ, spawnPos, _floorOBJ.transform.rotation, transform);
+                newfloor = CheckWhatFloor(id[1], spawnPos);
                 break;
-            case 'L':
+            case "RL":
                 Debug.Log("light source made");
-                string[] letters1 = Regex.Split(id, ":");
-                newobject = Instantiate<GameObject>(_yLightHouseOBJ, spawnPos, _yLightHouseOBJ.transform.rotation, transform);
-                newobject.AddComponent<TestObjectScript>();
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<TestObjectScript>());
-                if (letters1[1] == "S")
-                {
-                    newobject.transform.Rotate(Vector3.up, 90);
-                }
-                else if (letters1[1] == "W")
-                {
-                    newobject.transform.Rotate(Vector3.up, 180);
-                }
-                else if (letters1[1] == "N")
-                {
-                    newobject.transform.Rotate(Vector3.up, 270);
-                }
-                newfloor = Instantiate<GameObject>(_floorOBJ, spawnPos, _floorOBJ.transform.rotation, transform);
+               
+                newobject = Instantiate<GameObject>(_rLightHouseOBJ, spawnPos, _rLightHouseOBJ.transform.rotation, transform);
+                newobject.AddComponent<Obstacle>();
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                CheckObjectOrientation(id[1], newobject);
+
+                newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
                 break;
-            case 'B':
+            case "BL":
+                Debug.Log("light source made");
+                
+                newobject = Instantiate<GameObject>(_bLightHouseOBJ, spawnPos, _bLightHouseOBJ.transform.rotation, transform);
+                newobject.AddComponent<Obstacle>();
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                CheckObjectOrientation(id[1], newobject);
+
+                newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
+                break;
+            case "YL":
+                Debug.Log("light source made");
+                
+                newobject = Instantiate<GameObject>(_yLightHouseOBJ, spawnPos, _yLightHouseOBJ.transform.rotation, transform);
+                newobject.AddComponent<Obstacle>();
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                CheckObjectOrientation(id[1], newobject);
+
+                newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
+                break;
+            case "B":
                 Debug.Log("bridge made");
-                string[] letters2 = Regex.Split(id, ":");
                 newobject = null;
                 newfloor = Instantiate<GameObject>(_bridgeOBJ, spawnPos, _bridgeOBJ.transform.rotation, transform);
-                if (letters2[1] == "V")
+                if (id[1] == "V")
                 {
                     newfloor.transform.Rotate(Vector3.up, 90);
                 }
                 //add script to brdige to do cool color stuff
                 break;
-            case 'W':
-                Debug.Log("wall made");
+            case "CB":
+                Debug.Log("bridge made");
+                newobject = null;
 
-                string[] letters3 = Regex.Split(id, ":");
+                newfloor = Instantiate<GameObject>(_cornerObjectOBJ, spawnPos, _cornerObjectOBJ.transform.rotation, transform);
+                CheckCornerBridgeOrientation(id[1], newfloor);
+                break;
+            case "W":
+                Debug.Log("wall made");
                 newobject = Instantiate<GameObject>(_wallOBJ, spawnPos, _wallOBJ.transform.rotation, transform);
-                if (letters3[1] == "N")
-                {
-                    newobject.transform.Rotate(Vector3.up, 90);
-                }
-                else if (letters3[1] == "E")
-                {
-                    newobject.transform.Rotate(Vector3.up, 180);
-                }
-                else if (letters3[1] == "S")
-                {
-                    newobject.transform.Rotate(Vector3.up, 270);
-                }
-                newfloor = null;
+                CheckObjectOrientation(id[1], newobject);
+
+                newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform); 
+                break;
+            case "R":
+                newobject = Instantiate<GameObject>(_rockOBJ, spawnPos, _rockOBJ.transform.rotation, transform);
+                newobject.AddComponent<Obstacle>();
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>()); 
+                newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;
             default:
                 Debug.Log("nothing made");
@@ -128,6 +147,68 @@ public class WorldHandler : MonoBehaviour
 
         _objectTracker[xPos, zPos] = newobject;
         _floorTracker[xPos, zPos] = newfloor;
+    }
+
+    private GameObject CheckWhatFloor(string type, Vector3 spawnPos)
+    {
+        GameObject thingtospawn = null;
+        switch (type)
+        {
+            case "RPP":
+                thingtospawn = Instantiate<GameObject>(_rPressurePlateOBJ, spawnPos, _rPressurePlateOBJ.transform.rotation, transform);
+                break;
+            case "BPP":
+                thingtospawn = Instantiate<GameObject>(_bPressurePlateOBJ, spawnPos, _bPressurePlateOBJ.transform.rotation, transform);
+                break;
+            case "YPP":
+                thingtospawn = Instantiate<GameObject>(_yPressurePlateOBJ, spawnPos, _yPressurePlateOBJ.transform.rotation, transform);
+                break;
+            case "G":
+                thingtospawn = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
+                break;
+            case "WP":
+                thingtospawn = Instantiate<GameObject>(_pathTileFloorOBJ, spawnPos, _pathTileFloorOBJ.transform.rotation, transform);
+                break;
+            case "LP":
+                thingtospawn = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
+                break;
+            default:
+                break;
+        }
+
+        return thingtospawn;
+    }
+
+    private void CheckObjectOrientation(string dir, GameObject toRotate)
+    {
+        if (dir == "S")
+        {
+            toRotate.transform.Rotate(Vector3.up, 90);
+        }
+        else if (dir == "W")
+        {
+            toRotate.transform.Rotate(Vector3.up, 180);
+        }
+        else if (dir == "N")
+        {
+            toRotate.transform.Rotate(Vector3.up, 270);
+        }
+    }
+
+    private void CheckCornerBridgeOrientation(string dir, GameObject toRotate)
+    {
+        if(dir == "DL")
+        {
+            toRotate.transform.Rotate(Vector3.up, 90);
+        }
+        else if(dir == "UL")
+        {
+            toRotate.transform.Rotate(Vector3.up, 180);
+        }
+        else if (dir == "UR")
+        {
+            toRotate.transform.Rotate(Vector3.up, 270);
+        }
     }
 
     public void Update3DArea(int xPos, int zPos, int xNew, int zNew)

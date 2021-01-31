@@ -1,7 +1,5 @@
-X/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/X
-W:W/X/X/O/O/L:N/X/O/O/O/O/X/X/W:E
-W:W/O/O/O/O/O/X/O/O/O/O/O/O/W:E
-W:W/O/O/O/O/O/B:V/O/O/O/O/O/O/W:E
-W:W/P/O/O/O/O/X/O/O/O/O/O/O/W:E
-W:W/X/X/O/O/L:N/X/O/O/O/O/X/X/W:E
-X/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/X
+X/X/F:G/F:G/YL:N/X/F:G/F:G/F:G/F:G/X/X
+F:G/F:G/F:G/F:G/F:LP/X/F:G/F:G/F:G/F:G/F:G/F:G
+F:G/F:G/F:WP/F:WP/F:LP/B:H/F:WP/F:WP/F:WP/F:WP/F:WP/F:WP
+P/F:WP/F:WP/F:G/F:LP/X/F:G/F:G/F:G/F:G/F:G/F:G
+X/X/F:G/F:G/BL:N/X/F:G/F:G/F:G/F:G/X/X

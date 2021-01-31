@@ -37,10 +37,10 @@ public class Player : Movable
         {
             SendMove(0, 1);
         }
-        else if (Input.GetKeyDown("Space"))
+        /*else if (Input.GetKeyDown("Space"))
         {
             Interact();
-        }
+        }*/
     }
 
     //Tell the GridHandler where we want to move
