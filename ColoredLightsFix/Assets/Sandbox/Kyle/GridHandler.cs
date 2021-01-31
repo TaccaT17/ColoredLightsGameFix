@@ -89,6 +89,9 @@ public static class GridHandler
                     case "P":
                         newspace = new DataSpace("F", "G");
                         break;
+                    case "E":
+                        newspace = new DataSpace("F", "WP");
+                        break;
                     case "B":
                         newspace = new DataSpace(idLetters[0], idLetters[1]);
                         break;
