@@ -167,11 +167,11 @@ public class LightObject : MonoBehaviour
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.isTrigger = false;
+            colliderRef.isTrigger = true;
         }
         else
         {
-            colliderRef.isTrigger = true;
+            colliderRef.isTrigger = false;
         }
 
     }
