@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FadeObj : MonoBehaviour
 {
-    public MeshRenderer fadeGORenderer;
+    public Image fadeGORenderer;
 
     public bool debugStartFade;
 
@@ -35,12 +36,12 @@ public class FadeObj : MonoBehaviour
         GameManager.S.GetOrCreateComponent(out fadeGORenderer, this.gameObject);
         
         //if not invisible make invisible
-        if(fadeGORenderer.material.color.a > 0)
+        /*if(fadeGORenderer.color.a > 0)
         {
-            Color color = fadeGORenderer.material.color;
+            Color color = fadeGORenderer.color;
             color.a = 0;
-            fadeGORenderer.material.color = color;
-        }
+            fadeGORenderer.color = color;
+        }*/
     }
 
     public void Fade()
@@ -53,9 +54,9 @@ public class FadeObj : MonoBehaviour
         float normalizedTime = 0;
         while (normalizedTime < 1f)
         {
-            Color color = fadeGORenderer.material.GetColor("_BaseColor");
+            Color color = fadeGORenderer.color;
             color.a = normalizedTime;
-            fadeGORenderer.material.SetColor("_BaseColor", color);
+            fadeGORenderer.color = color;
             normalizedTime += Time.deltaTime / fadeOutTime;
             yield return null;
         }
@@ -75,14 +76,14 @@ public class FadeObj : MonoBehaviour
         StartCoroutine(FadeIn());
     }
 
-    private IEnumerator FadeIn()
+    public IEnumerator FadeIn()
     {
         float normalizedTime = 0;
-        while (normalizedTime < 1f)
+        while (normalizedTime <= 1f)
         {
-            Color color = fadeGORenderer.material.GetColor("_BaseColor");
+            Color color = fadeGORenderer.color;
             color.a = 1f - normalizedTime;
-            fadeGORenderer.material.SetColor("_BaseColor", color);
+            fadeGORenderer.color = color;
             normalizedTime += Time.deltaTime / fadeInTime;
             yield return null;
         }
