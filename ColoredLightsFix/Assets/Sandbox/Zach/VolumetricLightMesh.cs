@@ -15,6 +15,9 @@ public class VolumetricLightMesh : MonoBehaviour
     private Light light;
     private MeshFilter filter;
 
+    [SerializeField]
+    private List<LightObject> _objectsHit;
+
     private Mesh mesh;
 
     float lerpSpeed = 5;
@@ -44,6 +47,8 @@ public class VolumetricLightMesh : MonoBehaviour
         }
 
         rotation = transform.rotation;
+
+        _objectsHit = new List<LightObject>();
 
         //mesh = GenerateVolumeMesh();
         //filter.mesh = mesh;
@@ -108,6 +113,8 @@ public class VolumetricLightMesh : MonoBehaviour
 
         points = new List<Vector3>();
 
+        List<LightObject> newHits = new List<LightObject>();
+
         for (int i = 0; i < resolution; i++)
         {
             newObj.transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y - (light.spotAngle / 2)) + (volumeResolution * i));
@@ -124,7 +131,16 @@ public class VolumetricLightMesh : MonoBehaviour
 
                 if( hit.collider.GetComponent<LightObject>() && Application.isPlaying)
                 {
-                    hit.collider.GetComponent<LightObject>().Lit(lightColor);
+                    if (!newHits.Contains(hit.collider.GetComponent<LightObject>()))
+                    {
+                        newHits.Add(hit.collider.GetComponent<LightObject>());
+
+                        if (!_objectsHit.Contains(hit.collider.GetComponent<LightObject>()))
+                        {
+                            _objectsHit.Add(hit.collider.GetComponent<LightObject>());
+                            hit.collider.GetComponent<LightObject>().Lit(lightColor);
+                        }
+                    } 
                 }
 
                 /*
@@ -141,6 +157,25 @@ public class VolumetricLightMesh : MonoBehaviour
                 points.Add(transform.InverseTransformPoint(newObj.transform.position + (newObj.transform.forward * light.range)));
             }
         }
+
+        List<LightObject> RemovedLights = new List<LightObject>();
+
+        for (int j = 0; j < _objectsHit.Count; j++)
+        {
+            if (!newHits.Contains(_objectsHit[j]))
+            {
+                RemovedLights.Add(_objectsHit[j]);
+            }
+        }
+
+        for (int w = 0; w < RemovedLights.Count; w++)
+        {
+            RemovedLights[w].UnLit(lightColor);
+            _objectsHit.Remove(RemovedLights[w]);
+        }
+
+        RemovedLights.Clear();
+        newHits.Clear();
 
         Vector3[] verts = new Vector3[points.Count + 1];
 
