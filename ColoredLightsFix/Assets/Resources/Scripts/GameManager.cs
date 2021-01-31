@@ -45,6 +45,9 @@ public class GameManager : MonoBehaviour
           "Level6"  };
 
         leveltrack = -1;
+
+        GridHandler.Init();
+
     }
 
     public Component GetOrCreateComponent<T>(out T component, GameObject gO) where T : Component

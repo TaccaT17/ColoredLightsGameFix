@@ -19,7 +19,7 @@ public static class GridHandler
     {
         _levelGrid = new DataSpace[0, 0];
         _objectsGrid = new System.Object[0, 0];
-        _objectsGrid[0, 0] = null;
+        //_objectsGrid[0, 0] = null;
     }
 
     //Takes in a List of strings and decodes them
