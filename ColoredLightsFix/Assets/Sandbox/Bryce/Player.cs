@@ -103,12 +103,12 @@ public class Player : Movable
         {
             if (GridHandler.AttemptInteract(coords[0], coords[1], facing[0], facing[1], eInteractTypes.move))
             {
-                //Debug.Log("Grabbed an object!");
+                Debug.Log("Grabbed an object!");
                 bHolding = true;
             }
             else
             {
-                //Debug.Log("Nothing to grab!");
+                Debug.Log("Nothing to grab!");
             }
         }
         else

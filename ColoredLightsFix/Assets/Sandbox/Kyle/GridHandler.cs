@@ -164,6 +164,8 @@ public static class GridHandler
 
         //Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
 
+        Debug.Log("Moving to: " + tempRow + "," + tempColumn);
+
         if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
         {
             //Debug.Log("Not moving onto path!");
@@ -179,12 +181,10 @@ public static class GridHandler
             _worldRef.ActivatePressurePlate(tempRow, tempColumn);
         }
 
-        //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
-
         //Debug.Log("Within bounds!");
         if (_objectsGrid[tempRow, tempColumn] != null)
         {
-            //Debug.Log("Object detected at " + tempRow + "," + tempColumn);
+            Debug.Log("Object detected at " + tempRow + "," + tempColumn);
             return false;
         }
         else if (_levelGrid[tempRow, tempColumn] == null)
@@ -263,7 +263,7 @@ public static class GridHandler
             }
         }
 
-        //Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
+        Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
         UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
         return true;
     }
