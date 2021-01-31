@@ -191,8 +191,7 @@ public static class GridHandler
         else if (_levelGrid[tempRow, tempColumn].GetIDType == "B" || _levelGrid[tempRow, tempColumn].GetIDType == "CB")
         {
             //Debug.Log("Walking onto a bridge!");
-            //if (!_worldRef.IsBridgeActive(tempRow, tempColumn))
-            if (false) //delete this
+            if (!_worldRef.IsBridgeActive(tempRow, tempColumn))
             {
                 //Debug.Log("Bridge inactive, can't cross!");
                 return false;
@@ -304,27 +303,7 @@ public static class GridHandler
         }
         return false;
     }
-
-    /*
-     Move this to WorldHandler 
-
-    //Take this out for merging
-    public void ActivatePressurePlate(int xPos, int zPos)
-    {
-        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().ActivatePressurePlate();
-    }
-
-    public void DeactivatePressurePlate(int xPos, int zPos)
-    {
-        _floorTracker[xPos, zPos].GetComponent<PressurePlate>().DeactivatePressurePlate();
-    }
     
-    public bool IsBridgeActive(int xPos, int zPos)
-    {
-        return true;
-        //get if the bridge at that spot can be stepped on or not
-    }
-*/
 
     //Various Getters and Setters
     public static DataSpace[,] CheckFloorLayout { get { return _levelGrid; } }
