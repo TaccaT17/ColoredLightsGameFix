@@ -83,6 +83,7 @@ public class WorldHandler : MonoBehaviour
             case "E":
                 newobject = Instantiate<GameObject>(_chestOBJ, spawnPos, _chestOBJ.transform.rotation, transform);
                 newfloor = Instantiate<GameObject>(_pathTileFloorOBJ, spawnPos, _pathTileFloorOBJ.transform.rotation, transform);
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Exit>());
                 break;
             case "RL":
                 //Debug.Log("light source made");

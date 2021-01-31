@@ -1,7 +1,7 @@
 X/X/X/X/X/X/X
 X/P/F:G/F:G/F:G/F:G/X
 X/F:G/F:G/F:G/CB:Y:UL/F:LP/X
-X/F:G/F:G/F:G/F:G/F:LP/X
+X/F:G/F:G/E/F:G/F:LP/X
 X/F:G/CB:B:DR/F:G/CB:R:UR/RL:N/X
 X/F:G/F:G/F:G/F:G/F:G/X
 X/R/BL:E/F:G/YL:E/F:G/X
