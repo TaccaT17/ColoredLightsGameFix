@@ -8,7 +8,7 @@ using UnityEngine.Rendering;
 
 public class WorldHandler : MonoBehaviour
 {
-    public string LevelName;
+    //public string LevelName;
 
     GameObject _playerOBJ;
     GameObject _grassTileFloorOBJ;
@@ -47,7 +47,7 @@ public class WorldHandler : MonoBehaviour
         _chestOBJ = Resources.Load<GameObject>("Prefabs/Chest");
 
         GridHandler.SetWorldRef = this;
-        GridHandler.LoadLevel(LevelName);
+        //GridHandler.LoadLevel(LevelName);
     }
 
     public void Initialize3DArea(int width, int length)
@@ -369,24 +369,26 @@ public class WorldHandler : MonoBehaviour
 
     public void ResetLevel()
     {
-        for (int i = 0; i < _floorTracker.GetLength(0); i++)
+        if(_floorTracker.Length > 0)
         {
-            for (int j = 0; j < _floorTracker.GetLength(1); j++)
+            for (int i = 0; i < _floorTracker.GetLength(0); i++)
             {
-                if(_floorTracker[i, j] != null)
+                for (int j = 0; j < _floorTracker.GetLength(1); j++)
                 {
-                    Destroy(_floorTracker[i, j].gameObject);
-                    _floorTracker[i, j] = null;
-                }
+                    if (_floorTracker[i, j] != null)
+                    {
+                        Destroy(_floorTracker[i, j].gameObject);
+                        _floorTracker[i, j] = null;
+                    }
 
-                if (_objectTracker[i, j] != null)
-                {
-                    Destroy(_objectTracker[i, j].gameObject);
-                    _objectTracker[i, j] = null;
+                    if (_objectTracker[i, j] != null)
+                    {
+                        Destroy(_objectTracker[i, j].gameObject);
+                        _objectTracker[i, j] = null;
+                    }
                 }
             }
         }
-
-        GridHandler.UnloadLevel();
+        
     }
 }

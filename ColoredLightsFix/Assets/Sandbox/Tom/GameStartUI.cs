@@ -17,5 +17,8 @@ public class GameStartUI : MonoBehaviour
         {
             StartCoroutine(fade.FadeIn());
         }
+
+        GameManager.S.LoadNextLevel();
+
     }
 }
