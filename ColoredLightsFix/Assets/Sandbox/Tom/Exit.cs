@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Exit : Interactable
+public class Exit : MonoBehaviour , Interactable
 {
     void Interactable.Interact(eInteractTypes type)
     {
