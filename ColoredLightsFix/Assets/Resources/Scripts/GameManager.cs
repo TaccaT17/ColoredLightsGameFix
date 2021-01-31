@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
     public enum ColorOfLight
     {
+        none,
         red,
         yellow,
         blue

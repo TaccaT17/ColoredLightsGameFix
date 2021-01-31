@@ -7,8 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Light))]
 public class VolumetricLightMesh : MonoBehaviour
 {
-    public enum LightColor { Blue, Yellow, Red, Green, Orange, Purple, None}
-    public LightColor colorType = LightColor.None;
+    public GameManager.ColorOfLight lightColor = GameManager.ColorOfLight.none;
 
     public float minOpacity = 0.1f;
     public float maxOpacity = 0.25f;
@@ -77,15 +76,15 @@ public class VolumetricLightMesh : MonoBehaviour
 
         //newObj.transform.eulerAngles = new Vector3(transform.eulerAngles.x, (transform.eulerAngles.y - (light.spotAngle / 2)) + (volumeResolution * 10f));
 
-        if (rotation != transform.rotation)
-        {
+        //if (rotation != transform.rotation)
+        //{
             rotation = transform.rotation;
             if(mesh) mesh.Clear();
             mesh = GenerateVolumeMesh();
             //BuildMesh();
             filter.mesh = mesh;
-            Debug.Log(mesh.vertices[1]) ;
-        }
+            //Debug.Log(mesh.vertices[1]) ;
+        //}
     }
 
     /*
@@ -123,6 +122,11 @@ public class VolumetricLightMesh : MonoBehaviour
                 //Debug.Log(Vector3.Distance(transform.position, hit.point));
                 points.Add(transform.InverseTransformPoint(hit.point));
 
+                if( hit.collider.GetComponent<LightObject>() && Application.isPlaying)
+                {
+                    hit.collider.GetComponent<LightObject>().Lit(lightColor);
+                }
+
                 /*
                 if (hit.collider.tag == tagToReveal)
                 {
@@ -154,7 +158,7 @@ public class VolumetricLightMesh : MonoBehaviour
             uvs[u] = new Vector2(verts[u].x, verts[u].z);
         }
 
-        Debug.Log("Verts Count: " + verts.Length);
+        //Debug.Log("Verts Count: " + verts.Length);
 
         Color[] colors = new Color[verts.Length];
 
@@ -186,7 +190,7 @@ public class VolumetricLightMesh : MonoBehaviour
         //tris[((verts.Length - 1) * 3) + 1] = verts.Length - 1;
         //tris[((verts.Length - 1) * 3) + 2] = 1;
 
-        Debug.Log("Tris Count: " + tris.Length);
+        //Debug.Log("Tris Count: " + tris.Length);
 
         mesh = new Mesh();
 

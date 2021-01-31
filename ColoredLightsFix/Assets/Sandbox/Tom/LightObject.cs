@@ -7,7 +7,7 @@ public class LightObject : MonoBehaviour
 
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public int redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
+    public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
@@ -26,6 +26,26 @@ public class LightObject : MonoBehaviour
         Init();
     }
 
+    
+    private void LateUpdate()
+    {
+        CheckAndChangeOpacity();
+
+        Light tempLight;
+        tempLight = litBy[GameManager.ColorOfLight.blue];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.blue] = tempLight;
+
+        tempLight = litBy[GameManager.ColorOfLight.red];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.red] = tempLight;
+
+        tempLight = litBy[GameManager.ColorOfLight.yellow];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.yellow] = tempLight;
+    }
+    
+
     public void Init()
     {
         GameManager.S.GetOrCreateComponent(out colliderRef, this.gameObject);
@@ -34,6 +54,11 @@ public class LightObject : MonoBehaviour
         Constructor(redLitsNeeded, yellowLitsNeeded, blueLitsNeeded);
 
         CheckAndChangeOpacity();
+        /*
+        Color color = meshRendererRef.material.GetColor("_BaseColor");
+        color.a = 0;
+        meshRendererRef.material.SetColor("_BaseColor", color);
+        */
     }
     /// <summary>
     /// Parameters are how many of each color light needed to be lighting that object in order to "solidify" the object
@@ -41,14 +66,14 @@ public class LightObject : MonoBehaviour
     /// <param name="redLits"></param>
     /// <param name="yellowLits"></param>
     /// <param name="blueLits"></param>
-    public void Constructor(int redLits, int yellowLits, int blueLits)
+    public void Constructor(bool redLits, bool yellowLits, bool blueLits)
     {
-        initRedLight.neededLits = redLits;
-        initRedLight.currentLits = 0;
-        initYellowLight.neededLits = yellowLits;
-        initYellowLight.currentLits = 0;
-        initBlueLight.neededLits = blueLits;
-        initBlueLight.currentLits = 0;
+        initRedLight.neededLit = redLits;
+        initRedLight.currentLit = false;
+        initYellowLight.neededLit = yellowLits;
+        initYellowLight.currentLit = false;
+        initBlueLight.neededLit = blueLits;
+        initBlueLight.currentLit = false;
 
         //create Dictionaries
         litBy = new Dictionary<GameManager.ColorOfLight, Light>();
@@ -57,9 +82,9 @@ public class LightObject : MonoBehaviour
         litBy.Add(GameManager.ColorOfLight.blue, initBlueLight);
     }
     
-    public int GetLitAmount(GameManager.ColorOfLight lightColor)
+    public bool GetLitAmount(GameManager.ColorOfLight lightColor)
     {
-        return litBy[lightColor].currentLits;
+        return litBy[lightColor].currentLit;
     }
 
     /// <summary>
@@ -68,8 +93,9 @@ public class LightObject : MonoBehaviour
     /// <param name="lightColor"></param>
     public void Lit(GameManager.ColorOfLight lightColor)
     {
+        //Debug.Log(lightColor);
         Light tempLight = litBy[lightColor];
-        tempLight.currentLits++;
+        tempLight.currentLit = true;
         litBy[lightColor] = tempLight;
 
         CheckAndChangeOpacity();
@@ -82,10 +108,8 @@ public class LightObject : MonoBehaviour
     public void UnLit(GameManager.ColorOfLight lightColor)
     {
         Light tempLight = litBy[lightColor];
-        tempLight.currentLits--;
+        tempLight.currentLit = false;
         litBy[lightColor] = tempLight;
-
-        CheckAndChangeOpacity();
     }
     private void CheckAndChangeOpacity()
     {
@@ -96,11 +120,18 @@ public class LightObject : MonoBehaviour
         foreach (KeyValuePair<GameManager.ColorOfLight, Light> item in litBy)
         {
             //if needed amount is 0 don't count it
-            if (!(item.Value.neededLits.Equals(0)))
+            if (item.Value.neededLit == true)
             {
-                currentLitness += item.Value.currentLits;
-                neededLitNess += item.Value.neededLits;
+                neededLitNess++;
+
+                if (item.Value.currentLit == true)
+                {
+                    currentLitness++;
+                }
             }
+
+            //Debug.Log(currentLitness);
+            //Debug.Log(neededLitNess);
         }
 
         //don't divide by 0
@@ -113,17 +144,17 @@ public class LightObject : MonoBehaviour
         float opacityPercentage = (float)currentLitness / (float)neededLitNess;
 
         //set new opacity
-        Color color = meshRendererRef.material.color;
+        Color color = meshRendererRef.material.GetColor("_BaseColor");
         color.a = opacityPercentage;
-        meshRendererRef.material.color = color;
+        meshRendererRef.material.SetColor("_BaseColor", color);
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.enabled = true;
+            colliderRef.isTrigger = false;
         }
         else
         {
-            colliderRef.enabled = false;
+            colliderRef.isTrigger = true;
         }
 
     }
@@ -133,8 +164,8 @@ public class LightObject : MonoBehaviour
     //STRUCT
     private struct Light
     {
-        public int currentLits;
-        public int neededLits;
+        public bool currentLit;
+        public bool neededLit;
     }
 
     
