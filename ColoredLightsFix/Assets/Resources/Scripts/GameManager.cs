@@ -14,6 +14,14 @@ public class GameManager : MonoBehaviour
         West
     }
 
+    public enum ColorOfLight
+    {
+        none,
+        red,
+        yellow,
+        blue
+    }
+
     void Awake()
     {
         if(S == null)

@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LightObject : MonoBehaviour
-{   
-    public enum ColorOfLight
-    {
-        red,
-        yellow,
-        blue
-    }
-
-    public bool debugRedBoolLight = false;
+{
 
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public int redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
+    public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
-    private Dictionary<ColorOfLight, Light> litBy;
+    private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
 
     private MeshRenderer meshRendererRef;
@@ -34,13 +26,25 @@ public class LightObject : MonoBehaviour
         Init();
     }
 
-    public void Update()
+    
+    private void LateUpdate()
     {
-        if (debugRedBoolLight && litBy[ColorOfLight.red].currentLits < 1)
-        {
-            LightTouched(ColorOfLight.red);
-        }
+        CheckAndChangeOpacity();
+
+        Light tempLight;
+        tempLight = litBy[GameManager.ColorOfLight.blue];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.blue] = tempLight;
+
+        tempLight = litBy[GameManager.ColorOfLight.red];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.red] = tempLight;
+
+        tempLight = litBy[GameManager.ColorOfLight.yellow];
+        tempLight.currentLit = false;
+        litBy[GameManager.ColorOfLight.yellow] = tempLight;
     }
+    
 
     public void Init()
     {
@@ -50,6 +54,11 @@ public class LightObject : MonoBehaviour
         Constructor(redLitsNeeded, yellowLitsNeeded, blueLitsNeeded);
 
         CheckAndChangeOpacity();
+        /*
+        Color color = meshRendererRef.material.GetColor("_BaseColor");
+        color.a = 0;
+        meshRendererRef.material.SetColor("_BaseColor", color);
+        */
     }
     /// <summary>
     /// Parameters are how many of each color light needed to be lighting that object in order to "solidify" the object
@@ -57,41 +66,50 @@ public class LightObject : MonoBehaviour
     /// <param name="redLits"></param>
     /// <param name="yellowLits"></param>
     /// <param name="blueLits"></param>
-    public void Constructor(int redLits, int yellowLits, int blueLits)
+    public void Constructor(bool redLits, bool yellowLits, bool blueLits)
     {
-        initRedLight.neededLits = redLits;
-        initRedLight.currentLits = 0;
-        initYellowLight.neededLits = yellowLits;
-        initYellowLight.currentLits = 0;
-        initBlueLight.neededLits = blueLits;
-        initBlueLight.currentLits = 0;
+        initRedLight.neededLit = redLits;
+        initRedLight.currentLit = false;
+        initYellowLight.neededLit = yellowLits;
+        initYellowLight.currentLit = false;
+        initBlueLight.neededLit = blueLits;
+        initBlueLight.currentLit = false;
 
         //create Dictionaries
-        litBy = new Dictionary<ColorOfLight, Light>();
-        litBy.Add(ColorOfLight.red, initRedLight);
-        litBy.Add(ColorOfLight.yellow, initYellowLight);
-        litBy.Add(ColorOfLight.blue, initBlueLight);
+        litBy = new Dictionary<GameManager.ColorOfLight, Light>();
+        litBy.Add(GameManager.ColorOfLight.red, initRedLight);
+        litBy.Add(GameManager.ColorOfLight.yellow, initYellowLight);
+        litBy.Add(GameManager.ColorOfLight.blue, initBlueLight);
     }
     
-    public int GetLitAmount(ColorOfLight lightColor)
+    public bool GetLitAmount(GameManager.ColorOfLight lightColor)
     {
-        return litBy[lightColor].currentLits;
+        return litBy[lightColor].currentLit;
     }
-    public void LightTouched(ColorOfLight lightColor)
+
+    /// <summary>
+    /// Call when light shines on this object
+    /// </summary>
+    /// <param name="lightColor"></param>
+    public void Lit(GameManager.ColorOfLight lightColor)
     {
+        //Debug.Log(lightColor);
         Light tempLight = litBy[lightColor];
-        tempLight.currentLits++;
+        tempLight.currentLit = true;
         litBy[lightColor] = tempLight;
 
         CheckAndChangeOpacity();
     }
-    public void LightLeft(ColorOfLight lightColor)
+
+    /// <summary>
+    /// Call when light stops shining on object
+    /// </summary>
+    /// <param name="lightColor"></param>
+    public void UnLit(GameManager.ColorOfLight lightColor)
     {
         Light tempLight = litBy[lightColor];
-        tempLight.currentLits--;
+        tempLight.currentLit = false;
         litBy[lightColor] = tempLight;
-
-        CheckAndChangeOpacity();
     }
     private void CheckAndChangeOpacity()
     {
@@ -99,14 +117,21 @@ public class LightObject : MonoBehaviour
         int neededLitNess = 0;
 
         //get total lights lighting
-        foreach (KeyValuePair<ColorOfLight, Light> item in litBy)
+        foreach (KeyValuePair<GameManager.ColorOfLight, Light> item in litBy)
         {
             //if needed amount is 0 don't count it
-            if (!(item.Value.neededLits.Equals(0)))
+            if (item.Value.neededLit == true)
             {
-                currentLitness += item.Value.currentLits;
-                neededLitNess += item.Value.neededLits;
+                neededLitNess++;
+
+                if (item.Value.currentLit == true)
+                {
+                    currentLitness++;
+                }
             }
+
+            //Debug.Log(currentLitness);
+            //Debug.Log(neededLitNess);
         }
 
         //don't divide by 0
@@ -119,17 +144,17 @@ public class LightObject : MonoBehaviour
         float opacityPercentage = (float)currentLitness / (float)neededLitNess;
 
         //set new opacity
-        Color color = meshRendererRef.material.color;
+        Color color = meshRendererRef.material.GetColor("_BaseColor");
         color.a = opacityPercentage;
-        meshRendererRef.material.color = color;
+        meshRendererRef.material.SetColor("_BaseColor", color);
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.enabled = true;
+            colliderRef.isTrigger = false;
         }
         else
         {
-            colliderRef.enabled = false;
+            colliderRef.isTrigger = true;
         }
 
     }
@@ -139,8 +164,8 @@ public class LightObject : MonoBehaviour
     //STRUCT
     private struct Light
     {
-        public int currentLits;
-        public int neededLits;
+        public bool currentLit;
+        public bool neededLit;
     }
 
     
