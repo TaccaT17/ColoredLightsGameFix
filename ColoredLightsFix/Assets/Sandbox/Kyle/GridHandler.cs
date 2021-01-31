@@ -158,7 +158,7 @@ public static class GridHandler
             return false;
         }
 
-        Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
+        //Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
 
         if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
         {
@@ -193,10 +193,10 @@ public static class GridHandler
             //Debug.Log("Walking onto a bridge!");
             if (!_worldRef.IsBridgeActive(tempRow, tempColumn))
             {
-                //Debug.Log("Bridge inactive, can't cross!");
+                Debug.Log("Bridge inactive, can't cross!");
                 return false;
             }
-            //Debug.Log("Bridge active, crossing!");
+            Debug.Log("Bridge active, crossing!");
         }
         if (_levelGrid[row, column].GetIDType == "B" || _levelGrid[tempRow, tempColumn].GetIDType == "B")
         {
@@ -204,7 +204,7 @@ public static class GridHandler
             {
                 if (horizontalMove == 0)
                 {
-                    //Debug.Log("Can't move vertically onto horizontal bridge!");
+                    Debug.Log("Can't move vertically onto horizontal bridge!");
                     return false;
                 }
             }
@@ -212,7 +212,7 @@ public static class GridHandler
             {
                 if (horizontalMove != 0)
                 {
-                    //Debug.Log("Can't move horizontally onto vertical bridge!");
+                    Debug.Log("Can't move horizontally onto vertical bridge!");
                     return false;
                 }
             }
@@ -222,38 +222,47 @@ public static class GridHandler
             //walking off of a corner bridge
             if (horizontalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("R"))
             {
+                Debug.Log("1");
                 return false;
             }
             if (horizontalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("L"))
             {
+                Debug.Log("2");
                 return false;
             }
             if (verticalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("D"))
             {
+                Debug.Log("3");
                 return false;
             }
             if (verticalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("U"))
             {
+                Debug.Log("4");
                 return false;
             }
         }
         if (_levelGrid[tempRow, tempColumn].GetIDType == "CB")
         {
+            Debug.Log("ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
             //walking onto a corner bridge
             if (horizontalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("R"))
             {
+                Debug.Log("5");
                 return false;
             }
             if (horizontalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("L"))
             {
+                Debug.Log("6");
                 return false;
             }
             if (verticalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("D"))
             {
+                Debug.Log("7");
                 return false;
             }
             if (verticalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("U"))
             {
+                Debug.Log("8");
                 return false;
             }
         }

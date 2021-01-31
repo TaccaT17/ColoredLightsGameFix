@@ -364,10 +364,6 @@ public class WorldHandler : MonoBehaviour
 
     public bool IsBridgeActive(int xPos, int zPos)
     {
-        print("Is bridge Valid: " + _floorTracker[xPos, zPos] != null);
-        print("Bridge name: " + _floorTracker[xPos, zPos].ToString());
-        Debug.Log("Is Seer Valid: " + _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>() != null);
-        Debug.Log("Is LO Valid: " + _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>().lightobject != null);
         return _floorTracker[xPos, zPos].GetComponent<LightObjectSeer>().lightobject.Stepable;
     }
 
