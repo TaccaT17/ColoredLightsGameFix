@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3439548948985694935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 871905659109694222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6c008538f67468428c867de8bbf72cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  redLitsNeeded: 0
+  yellowLitsNeeded: 0
+  blueLitsNeeded: 0
+  debugRedLit: 0
+  meshRendererRef: {fileID: 4363184815837698309}
+  colliderRef: {fileID: 7519070516110034711}
 --- !u!1 &2773214117778601612
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +27,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2773214117778601613}
+  - component: {fileID: 8818843738103066768}
   m_Layer: 0
   m_Name: CornerBridge
   m_TagString: Untagged
@@ -31,6 +50,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8818843738103066768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2773214117778601612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f9e910d4ade524ab46f6b1d55db4b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lightobject: {fileID: 3439548948985694935}
 --- !u!1001 &2773214117838997600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -103,6 +135,24 @@ PrefabInstance:
 --- !u!4 &2447379780066684811 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c2a70067033f31e4aa21b49e03025ad6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2773214117838997600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &871905659109694222 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3055074558454698862, guid: c2a70067033f31e4aa21b49e03025ad6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2773214117838997600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4363184815837698309 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7281956706244488859, guid: c2a70067033f31e4aa21b49e03025ad6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2773214117838997600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &7519070516110034711 stripped
+MeshCollider:
+  m_CorrespondingSourceObject: {fileID: -3592336175756587145, guid: c2a70067033f31e4aa21b49e03025ad6,
     type: 3}
   m_PrefabInstance: {fileID: 2773214117838997600}
   m_PrefabAsset: {fileID: 0}
