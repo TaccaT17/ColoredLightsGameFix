@@ -226,22 +226,18 @@ public static class GridHandler
             //walking off of a corner bridge
             if (horizontalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("R"))
             {
-                Debug.Log("1");
                 return false;
             }
             if (horizontalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("L"))
             {
-                Debug.Log("2");
                 return false;
             }
             if (verticalMove == 1 && !_levelGrid[row, column].GetIDSpecific.Contains("D"))
             {
-                Debug.Log("3");
                 return false;
             }
             if (verticalMove == -1 && !_levelGrid[row, column].GetIDSpecific.Contains("U"))
             {
-                Debug.Log("4");
                 return false;
             }
         }
@@ -251,22 +247,18 @@ public static class GridHandler
             //walking onto a corner bridge
             if (horizontalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("R"))
             {
-                Debug.Log("5");
                 return false;
             }
             if (horizontalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("L"))
             {
-                Debug.Log("6");
                 return false;
             }
             if (verticalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("D"))
             {
-                Debug.Log("7");
                 return false;
             }
             if (verticalMove == 1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("U"))
             {
-                Debug.Log("8");
                 return false;
             }
         }
