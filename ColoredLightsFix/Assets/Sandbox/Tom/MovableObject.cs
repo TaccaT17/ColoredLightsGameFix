@@ -6,7 +6,9 @@ public class MovableObject : Movable, Interactable
 {
     [SerializeField]
     private float unitDistance = 1f;
+    public bool bCanRotate = false;
 
+    /*
     public void Move(GameManager.Direction direction)
     {
         switch (direction)
@@ -26,11 +28,32 @@ public class MovableObject : Movable, Interactable
             default:
                 break;
         }
-    }
+    }*/
 
-    public void Interact()
+    public void Interact(eInteractTypes type)
     {
-        Debug.Log("Interacted with!");
+        switch (type)
+        {
+            case eInteractTypes.move:
+                //Debug.Log("Moved!");
+                break;
+            case eInteractTypes.rotClockwise:
+                if (bCanRotate)
+                {
+                    //Debug.Log("Rotated clockwise!");
+                    transform.Rotate(Vector3.up, 90);
+                }
+                break;
+            case eInteractTypes.rotAntiClockwise:
+                if (bCanRotate)
+                {
+                    //Debug.Log("Rotated counter clockwise!");
+                    transform.Rotate(Vector3.up, -90);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 }

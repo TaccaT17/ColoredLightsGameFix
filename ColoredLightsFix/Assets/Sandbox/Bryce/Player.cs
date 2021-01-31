@@ -30,7 +30,15 @@ public class Player : Movable
         }
         else if (Input.GetKeyDown("space"))
         {
-            Use();
+            Grab();
+        }
+        else if (Input.GetKeyDown("q"))
+        {
+            RotateClockwise();
+        }
+        else if (Input.GetKeyDown("e"))
+        {
+            RotateAntiClockwise();
         }
     }
 
@@ -52,7 +60,10 @@ public class Player : Movable
                 int[] tempCoords = coords;
                 if (MovePlayer(xMove, zMove))
                 {
-                    MoveHeldObject(tempCoords, xMove, zMove);
+                    if (!MoveHeldObject(tempCoords, xMove, zMove))
+                    {
+                        Drop();
+                    }
                 }
             }
             else
@@ -86,11 +97,11 @@ public class Player : Movable
         return returnValue;
     }
 
-    private void Use()
+    private void Grab()
     {
         if (!bHolding)
         {
-            if (GridHandler.AttemptInteract(coords[0], coords[1], facing[0], facing[1]))
+            if (GridHandler.AttemptInteract(coords[0], coords[1], facing[0], facing[1], eInteractTypes.move))
             {
                 //Debug.Log("Grabbed an object!");
                 bHolding = true;
@@ -110,6 +121,16 @@ public class Player : Movable
     {
         bHolding = false;
         //Debug.Log("Dropping held object!");
+    }
+
+    private void RotateClockwise()
+    {
+        GridHandler.AttemptInteract(coords[0], coords[1], facing[0], facing[1], eInteractTypes.rotClockwise);
+    }
+
+    private void RotateAntiClockwise()
+    {
+        GridHandler.AttemptInteract(coords[0], coords[1], facing[0], facing[1], eInteractTypes.rotAntiClockwise);
     }
 
 }

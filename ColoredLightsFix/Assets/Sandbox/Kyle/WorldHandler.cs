@@ -82,8 +82,11 @@ public class WorldHandler : MonoBehaviour
                 //Debug.Log("light source made");
 
                 newobject = Instantiate<GameObject>(_rLightHouseOBJ, spawnPos, _rLightHouseOBJ.transform.rotation, transform);
-                newobject.AddComponent<Obstacle>();
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                newobject.AddComponent<MovableObject>();
+                newobject.GetComponent<MovableObject>().bCanRotate = true;
+                newobject.AddComponent<Lighthouse>();
+                newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.red;
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
                 CheckObjectOrientation(id[1], newobject);
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
@@ -92,8 +95,11 @@ public class WorldHandler : MonoBehaviour
                 //Debug.Log("light source made");
 
                 newobject = Instantiate<GameObject>(_bLightHouseOBJ, spawnPos, _bLightHouseOBJ.transform.rotation, transform);
-                newobject.AddComponent<Obstacle>();
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                newobject.AddComponent<MovableObject>();
+                newobject.GetComponent<MovableObject>().bCanRotate = true;
+                newobject.AddComponent<Lighthouse>();
+                newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.blue;
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
                 CheckObjectOrientation(id[1], newobject);
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
@@ -102,8 +108,11 @@ public class WorldHandler : MonoBehaviour
                 //Debug.Log("light source made");
 
                 newobject = Instantiate<GameObject>(_yLightHouseOBJ, spawnPos, _yLightHouseOBJ.transform.rotation, transform);
-                newobject.AddComponent<Obstacle>();
-                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
+                newobject.AddComponent<MovableObject>();
+                newobject.GetComponent<MovableObject>().bCanRotate = true;
+                newobject.AddComponent<Lighthouse>();
+                newobject.GetComponent<Lighthouse>().color = GameManager.ColorOfLight.yellow;
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<MovableObject>());
                 CheckObjectOrientation(id[1], newobject);
 
                 newfloor = Instantiate<GameObject>(_lighthouseTileFloorOBJ, spawnPos, _lighthouseTileFloorOBJ.transform.rotation, transform);
@@ -222,14 +231,20 @@ public class WorldHandler : MonoBehaviour
         tempObj.GetComponent<Movable>().coords = new int[] { xNew, zNew };
     }
 
-    public bool AttemptInteract(int xPos, int zPos)
+    public bool AttemptInteract(int xPos, int zPos, eInteractTypes type)
     {
         if (_objectTracker[xPos, zPos].GetComponent<Interactable>() != null)
         {
-            _objectTracker[xPos, zPos].GetComponent<Interactable>().Interact();
+            _objectTracker[xPos, zPos].GetComponent<Interactable>().Interact(type);
             return true;
         }
         return false;
+    }
+
+    public bool IsObjectLighthouse(int xPos, int zPos)
+    {
+        Debug.Log("Is lighthouse: " + (_objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null));
+        return _objectTracker[xPos, zPos].GetComponent<Lighthouse>() != null;
     }
 
 }

@@ -2,7 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum eInteractTypes
+{
+    move,
+    rotClockwise,
+    rotAntiClockwise
+}
+
 public interface Interactable
 {
-    void Interact();
+    void Interact(eInteractTypes type);
 }

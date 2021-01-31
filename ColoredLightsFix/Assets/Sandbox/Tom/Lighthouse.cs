@@ -13,6 +13,8 @@ public class Lighthouse : MonoBehaviour
         //do thingy
     }
 
+    public GameManager.ColorOfLight color;
+
     public void Rotate(GameManager.Direction direction)
     {
         switch (direction)

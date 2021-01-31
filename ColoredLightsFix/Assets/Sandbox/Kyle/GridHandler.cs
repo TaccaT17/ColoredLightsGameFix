@@ -148,7 +148,19 @@ public static class GridHandler
         int tempRow = row + verticalMove;
         int tempColumn = column + horizontalMove;
 
-        Debug.Log("Moving to: " + tempRow + "," + tempColumn);
+        Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
+
+        if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
+        {
+            Debug.Log("Not moving onto path!");
+            return false;
+        }
+        else
+        {
+            Debug.Log("Moving onto path!");
+        }
+
+        //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
         if (!IsTileWithinBounds(tempRow, tempColumn))
         {
             //Debug.Log("Not within bounds!");
@@ -169,9 +181,9 @@ public static class GridHandler
             }
             else
             {
-                Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
+                //Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
                 UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
-                
+
                 return true;
             }
         }
@@ -206,11 +218,11 @@ public static class GridHandler
 
     //gets the object the player is facing
     //activates the interaction interface if it is present
-    public static bool AttemptInteract(int xPos, int zPos, int xFacing, int zFacing)
+    public static bool AttemptInteract(int xPos, int zPos, int xFacing, int zFacing, eInteractTypes type)
     {
         if (_objectsGrid[xPos + xFacing, zPos + zFacing] != null)
         {
-            if (_worldRef.AttemptInteract(xPos + xFacing, zPos + zFacing))
+            if (_worldRef.AttemptInteract(xPos + xFacing, zPos + zFacing, type))
             {
                 return true;
             }
