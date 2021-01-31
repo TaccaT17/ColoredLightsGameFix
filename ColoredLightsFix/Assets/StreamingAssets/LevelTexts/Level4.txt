@@ -1,0 +1,6 @@
+F:G/X/F:G/F:G/X/X
+X/F:G/R/F:G/F:G/P
+X/F:G/F:G/F:G/BPP/F:G
+Exit?/B:HB/B:HR/B:HP/F:G/BL:W
+F:G/F:G/R/F:G/F:P/F:P
+F:P/X/F:LP/F:LP/RL:E/F:G

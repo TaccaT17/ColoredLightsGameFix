@@ -1,5 +1,6 @@
-X/X/F:G/F:G/YL:N/X/F:G/F:G/F:G/F:G/X/X
-F:G/F:G/F:G/F:G/F:LP/X/F:G/F:G/F:G/F:G/F:G/F:G
-F:G/F:G/F:WP/F:WP/F:LP/B:H/F:WP/F:WP/F:WP/F:WP/F:WP/F:WP
-P/F:WP/F:WP/F:G/F:LP/X/F:G/F:G/F:G/F:G/F:G/F:G
-X/X/F:G/F:G/BL:N/X/F:G/F:G/F:G/F:G/X/X
+F:G/F:G/X/X/X/X
+F:G/F:G/F:G/X/X/X
+P/RL:E/F:G/B:HR/B:HR/F:G
+F:G/F:G/X/X/X/F:G
+F:G/R/RPP/X/X/Exit?
+F:G/F:G/X/X/X/X
