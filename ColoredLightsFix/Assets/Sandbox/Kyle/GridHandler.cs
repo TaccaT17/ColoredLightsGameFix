@@ -27,6 +27,10 @@ public static class GridHandler
     //which will then populate and create the 3D area
     public static void LoadLevel(string LevelName)
     {
+        if(_levelGrid.Length > 0)
+        {
+            UnloadLevel();
+        }
         string[,] organizedLevelText = OrganizeLevelText(LevelName);
         PopulateGridData(organizedLevelText);
     }
@@ -93,10 +97,10 @@ public static class GridHandler
                         newspace = new DataSpace("F", "WP");
                         break;
                     case "B":
-                        newspace = new DataSpace(idLetters[0], idLetters[1]);
+                        newspace = new DataSpace(idLetters[0], idLetters[2]);
                         break;
                     case "CB":
-                        newspace = new DataSpace(idLetters[0], idLetters[1]);
+                        newspace = new DataSpace(idLetters[0], idLetters[2]);
                         break;
                     case "F":
                         newspace = new DataSpace(idLetters[0], idLetters[1]);
@@ -288,6 +292,8 @@ public static class GridHandler
                 _objectsGrid[i, j] = null;
             }
         }
+
+        _worldRef.ResetLevel();
     }
 
     //gets the object the player is facing
