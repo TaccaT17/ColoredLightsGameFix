@@ -15,6 +15,11 @@ public class VolumetricLightMesh : MonoBehaviour
     private Light light;
     private MeshFilter filter;
 
+    private bool lightOn = true;
+
+    [SerializeField]
+    private List<LightObject> _objectsHit;
+
     private Mesh mesh;
 
     float lerpSpeed = 5;
@@ -29,6 +34,11 @@ public class VolumetricLightMesh : MonoBehaviour
     List<Vector3> points;
     List<Vector3> cubes;
 
+    [Header("Debug")]
+    [SerializeField]
+    bool turnOff;
+    [SerializeField]
+    bool turnOn;
 
     Quaternion rotation;
 
@@ -44,6 +54,8 @@ public class VolumetricLightMesh : MonoBehaviour
         }
 
         rotation = transform.rotation;
+
+        _objectsHit = new List<LightObject>();
 
         //mesh = GenerateVolumeMesh();
         //filter.mesh = mesh;
@@ -65,6 +77,18 @@ public class VolumetricLightMesh : MonoBehaviour
 
         }
 
+        if (turnOff)
+        {
+            turnOff = false;
+            TurnOffLightMesh();
+        }
+
+        if (turnOn)
+        {
+            turnOn = false;
+            TurnOnLightMesh();
+        }
+
         float angle = light.spotAngle / 2f;
 
         //Debug.DrawRay(transform.position, transform.forward + new Vector3(0, Mathf.Lerp(transform.forward.y - angle, transform.forward.y + angle, Time.deltaTime * lerpSpeed)));
@@ -78,12 +102,15 @@ public class VolumetricLightMesh : MonoBehaviour
 
         //if (rotation != transform.rotation)
         //{
+        if (lightOn)
+        {
             rotation = transform.rotation;
-            if(mesh) mesh.Clear();
+            if (mesh) mesh.Clear();
             mesh = GenerateVolumeMesh();
             //BuildMesh();
             filter.mesh = mesh;
             //Debug.Log(mesh.vertices[1]) ;
+        }
         //}
     }
 
@@ -102,11 +129,34 @@ public class VolumetricLightMesh : MonoBehaviour
     }
     */
 
+    public void TurnOffLightMesh()
+    {
+        lightOn = false;
+
+        if (mesh) mesh.Clear();
+
+        for (int i = 0; i < _objectsHit.Count; i++)
+        {
+            _objectsHit[i].UnLit(lightColor);
+        }
+
+        _objectsHit.Clear();
+        light.enabled = false;
+    }
+
+    public void TurnOnLightMesh()
+    {
+        lightOn = true;
+        light.enabled = true;
+    }
+
     private Mesh GenerateVolumeMesh()
     {
         int resolution = (int)(light.spotAngle / volumeResolution);
 
         points = new List<Vector3>();
+
+        List<LightObject> newHits = new List<LightObject>();
 
         for (int i = 0; i < resolution; i++)
         {
@@ -124,7 +174,16 @@ public class VolumetricLightMesh : MonoBehaviour
 
                 if( hit.collider.GetComponent<LightObject>() && Application.isPlaying)
                 {
-                    hit.collider.GetComponent<LightObject>().Lit(lightColor);
+                    if (!newHits.Contains(hit.collider.GetComponent<LightObject>()))
+                    {
+                        newHits.Add(hit.collider.GetComponent<LightObject>());
+
+                        if (!_objectsHit.Contains(hit.collider.GetComponent<LightObject>()))
+                        {
+                            _objectsHit.Add(hit.collider.GetComponent<LightObject>());
+                            hit.collider.GetComponent<LightObject>().Lit(lightColor);
+                        }
+                    } 
                 }
 
                 /*
@@ -141,6 +200,25 @@ public class VolumetricLightMesh : MonoBehaviour
                 points.Add(transform.InverseTransformPoint(newObj.transform.position + (newObj.transform.forward * light.range)));
             }
         }
+
+        List<LightObject> RemovedLights = new List<LightObject>();
+
+        for (int j = 0; j < _objectsHit.Count; j++)
+        {
+            if (!newHits.Contains(_objectsHit[j]))
+            {
+                RemovedLights.Add(_objectsHit[j]);
+            }
+        }
+
+        for (int w = 0; w < RemovedLights.Count; w++)
+        {
+            RemovedLights[w].UnLit(lightColor);
+            _objectsHit.Remove(RemovedLights[w]);
+        }
+
+        RemovedLights.Clear();
+        newHits.Clear();
 
         Vector3[] verts = new Vector3[points.Count + 1];
 

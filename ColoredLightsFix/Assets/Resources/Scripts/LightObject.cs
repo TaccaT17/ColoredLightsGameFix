@@ -7,15 +7,20 @@ public class LightObject : MonoBehaviour
 
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public bool Stepable = false;
+    
     public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
     private Light initRedLight, initYellowLight, initBlueLight;
 
-    public bool debugRedLit;
+    [SerializeField]
+    bool debugRedLit;
 
-    public MeshRenderer meshRendererRef;
-    public Collider colliderRef;
+    [SerializeField]
+    MeshRenderer meshRendererRef;
+    [SerializeField]
+    Collider colliderRef;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     #endregion
 
@@ -41,6 +46,7 @@ public class LightObject : MonoBehaviour
     
     private void LateUpdate()
     {
+        /*
         CheckAndChangeOpacity();
 
         Light tempLight;
@@ -55,6 +61,7 @@ public class LightObject : MonoBehaviour
         tempLight = litBy[GameManager.ColorOfLight.yellow];
         tempLight.currentLit = false;
         litBy[GameManager.ColorOfLight.yellow] = tempLight;
+        */
     }
     
 
@@ -105,7 +112,7 @@ public class LightObject : MonoBehaviour
     /// <param name="lightColor"></param>
     public void Lit(GameManager.ColorOfLight lightColor)
     {
-        //Debug.Log(lightColor);
+        //Debug.Log("lit by: " + lightColor);
         Light tempLight = litBy[lightColor];
         tempLight.currentLit = true;
         litBy[lightColor] = tempLight;
@@ -119,9 +126,12 @@ public class LightObject : MonoBehaviour
     /// <param name="lightColor"></param>
     public void UnLit(GameManager.ColorOfLight lightColor)
     {
+        //Debug.Log("Unlit by: " + lightColor);
         Light tempLight = litBy[lightColor];
         tempLight.currentLit = false;
         litBy[lightColor] = tempLight;
+
+        CheckAndChangeOpacity();
     }
     private void CheckAndChangeOpacity()
     {
@@ -162,11 +172,13 @@ public class LightObject : MonoBehaviour
 
         if (opacityPercentage >= 1)
         {
-            colliderRef.enabled = true;
+            //colliderRef.isTrigger = true;
+            Stepable = true;
         }
         else
         {
-            colliderRef.enabled = false;
+            //colliderRef.isTrigger = false;
+            Stepable = false;
         }
 
     }
