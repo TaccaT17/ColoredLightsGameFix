@@ -1,6 +1,6 @@
 E/F:G/X/BPP/F:G/F:G
 F:G/F:WP/X/X/F:G/F:G
-X/CB:P:U/B:R:H/B:B:H/F:G/BL:N
+X/CB:P:UR/B:R:H/B:B:H/F:G/BL:N
 X/X/X/X/R/F:G
 X/F:LP/F:LP/F:LP/F:LP/RL:E
-X/X/F:P/F:P/P/F:G
+X/X/F:WP/F:WP/P/F:G

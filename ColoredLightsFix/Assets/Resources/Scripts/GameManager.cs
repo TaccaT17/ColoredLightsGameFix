@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager S;
 
+    public GameObject endScreen;
+
     public enum Direction
     {
         North,
@@ -60,9 +62,11 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         leveltrack += 1;
-        if(leveltrack > levels.Length)
+        if(leveltrack > levels.Length - 1)
         {
             //endgame
+            GridHandler.UnloadLevel();
+            endScreen.SetActive(true);
         }
         else
         {
