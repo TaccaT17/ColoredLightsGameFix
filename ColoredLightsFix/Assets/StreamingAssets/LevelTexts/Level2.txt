@@ -1,0 +1,7 @@
+X/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/W:N/X
+W:W/X/X/O/O/L:N/X/O/O/O/O/X/X/W:E
+W:W/O/O/O/O/O/X/O/O/O/O/O/O/W:E
+W:W/O/O/O/O/O/B:V/O/O/O/O/O/O/W:E
+W:W/P/O/O/O/O/X/O/O/O/O/O/O/W:E
+W:W/X/X/O/O/L:N/X/O/O/O/O/X/X/W:E
+X/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/W:S/X
