@@ -27,6 +27,7 @@ public static class GridHandler
     //which will then populate and create the 3D area
     public static void LoadLevel(string LevelName)
     {
+        Debug.Log("Loading level!");
         if (_levelGrid.Length > 0)
         {
             UnloadLevel();
@@ -42,7 +43,8 @@ public static class GridHandler
     //passes and 2d array of all the ids of things to spawn
     private static string[,] OrganizeLevelText(string LevelName)
     {
-        string path = "Assets/StreamingAssets/LevelTexts/" + LevelName + ".txt";
+
+        string path = Application.streamingAssetsPath + "/LevelTexts/" + LevelName + ".txt";
 
         string text = System.IO.File.ReadAllText(path);
         string[] lines = Regex.Split(text, "\r\n|\r|\n");
