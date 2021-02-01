@@ -27,7 +27,7 @@ public static class GridHandler
     //which will then populate and create the 3D area
     public static void LoadLevel(string LevelName)
     {
-        if(_levelGrid.Length > 0)
+        if (_levelGrid.Length > 0)
         {
             UnloadLevel();
         }
@@ -164,7 +164,7 @@ public static class GridHandler
 
         //Debug.Log("Ground ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
 
-        Debug.Log("Moving to: " + tempRow + "," + tempColumn);
+        //Debug.Log("Moving to: " + tempRow + "," + tempColumn);
 
         if (_worldRef.IsObjectLighthouse(row, column) && (_levelGrid[tempRow, tempColumn].GetIDSpecific != "LP"))
         {
@@ -176,15 +176,15 @@ public static class GridHandler
         {
             _worldRef.ActivatePressurePlate(tempRow, tempColumn);
         }
-        if (_levelGrid[row, column].GetIDSpecific == "YPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "RPP" || _levelGrid[tempRow, tempColumn].GetIDSpecific == "BPP")
+        if (_levelGrid[row, column].GetIDSpecific == "YPP" || _levelGrid[row, column].GetIDSpecific == "RPP" || _levelGrid[row, column].GetIDSpecific == "BPP")
         {
-            _worldRef.ActivatePressurePlate(tempRow, tempColumn);
+            _worldRef.DeactivatePressurePlate(row, column);
         }
 
         //Debug.Log("Within bounds!");
         if (_objectsGrid[tempRow, tempColumn] != null)
         {
-            Debug.Log("Object detected at " + tempRow + "," + tempColumn);
+            //Debug.Log("Object detected at " + tempRow + "," + tempColumn);
             return false;
         }
         else if (_levelGrid[tempRow, tempColumn] == null)
@@ -243,7 +243,7 @@ public static class GridHandler
         }
         if (_levelGrid[tempRow, tempColumn].GetIDType == "CB")
         {
-            Debug.Log("ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
+            //Debug.Log("ID: " + _levelGrid[tempRow, tempColumn].GetIDSpecific);
             //walking onto a corner bridge
             if (horizontalMove == -1 && !_levelGrid[tempRow, tempColumn].GetIDSpecific.Contains("R"))
             {
@@ -263,7 +263,7 @@ public static class GridHandler
             }
         }
 
-        Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
+        //Debug.Log("No obstacles detected at " + tempRow + "," + tempColumn);
         UpdateGrid(row, column, tempRow, tempColumn, _objectsGrid[row, column]);
         return true;
     }
@@ -310,7 +310,7 @@ public static class GridHandler
         }
         return false;
     }
-    
+
 
     //Various Getters and Setters
     public static DataSpace[,] CheckFloorLayout { get { return _levelGrid; } }

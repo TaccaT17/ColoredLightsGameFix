@@ -144,6 +144,8 @@ public class WorldHandler : MonoBehaviour
                 //Debug.Log("wall made");
                 newobject = Instantiate<GameObject>(_wallOBJ, spawnPos, _wallOBJ.transform.rotation, transform);
                 CheckObjectOrientation(id[1], newobject);
+                newobject.AddComponent<Obstacle>();
+                GridHandler.AddObjectToGrid(xPos, zPos, newobject.GetComponent<Obstacle>());
 
                 newfloor = Instantiate<GameObject>(_grassTileFloorOBJ, spawnPos, _grassTileFloorOBJ.transform.rotation, transform);
                 break;

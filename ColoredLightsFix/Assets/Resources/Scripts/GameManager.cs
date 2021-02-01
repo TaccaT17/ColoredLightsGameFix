@@ -69,4 +69,10 @@ public class GameManager : MonoBehaviour
             GridHandler.LoadLevel(levels[leveltrack]);
         }
     }
+
+    public void RestartLevel()
+    {
+        leveltrack--;
+        GameObject.FindObjectOfType<FadeObj>().GetComponent<FadeObj>().Fade();
+    }
 }
