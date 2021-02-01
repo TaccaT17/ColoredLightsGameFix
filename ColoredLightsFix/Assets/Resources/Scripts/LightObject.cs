@@ -22,12 +22,8 @@ public class LightObject : MonoBehaviour
 
     [SerializeField]
     MeshRenderer meshRendererRef;
-    [SerializeField]
-    Collider colliderRef;
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     #endregion
-
-
 
     #region FUNCTIONS
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -70,7 +66,6 @@ public class LightObject : MonoBehaviour
 
     public void Init()
     {
-        GameManager.S.GetOrCreateComponent(out colliderRef, this.gameObject);
         GameManager.S.GetOrCreateComponent(out meshRendererRef, this.gameObject);
 
         Constructor(redLitsNeeded, yellowLitsNeeded, blueLitsNeeded);

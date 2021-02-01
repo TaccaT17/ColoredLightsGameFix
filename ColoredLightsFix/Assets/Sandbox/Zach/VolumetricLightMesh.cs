@@ -131,6 +131,9 @@ public class VolumetricLightMesh : MonoBehaviour
 
     public void TurnOffLightMesh()
     {
+        if(light == null)
+        light = GetComponent<Light>();
+
         lightOn = false;
 
         if (mesh) mesh.Clear();

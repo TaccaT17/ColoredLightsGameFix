@@ -64,7 +64,6 @@ MonoBehaviour:
   blueLitsNeeded: 0
   debugRedLit: 0
   meshRendererRef: {fileID: 3328750690313900289}
-  colliderRef: {fileID: 9194195787280967810}
 --- !u!1 &6736329607712979917
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,6 +264,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: bridge
       objectReference: {fileID: 0}
+    - target: {fileID: 4255879185904980314, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b1a2e9902dd56794e8ba343e5cb0e4c1, type: 3}
 --- !u!4 &4836033344621993523 stripped
@@ -288,12 +292,6 @@ Transform:
 --- !u!23 &3328750690313900289 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 7684736170636421337, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
-    type: 3}
-  m_PrefabInstance: {fileID: 4942616792513001944}
-  m_PrefabAsset: {fileID: 0}
---- !u!64 &9194195787280967810 stripped
-MeshCollider:
-  m_CorrespondingSourceObject: {fileID: 4255879185904980314, guid: b1a2e9902dd56794e8ba343e5cb0e4c1,
     type: 3}
   m_PrefabInstance: {fileID: 4942616792513001944}
   m_PrefabAsset: {fileID: 0}
