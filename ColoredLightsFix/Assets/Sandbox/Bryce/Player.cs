@@ -42,7 +42,7 @@ public class Player : Movable
         }
         if (Input.GetKeyDown("r"))
         {
-            GameManager.S.RestartLevel();
+            //GameManager.S.RestartLevel();
         }
 
     }
