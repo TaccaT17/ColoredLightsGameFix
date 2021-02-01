@@ -98,6 +98,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: stone pillar
       objectReference: {fileID: 0}
+    - target: {fileID: 6646028212382751670, guid: 9713e66b2ea3391479063eef1e8c25ea,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6646028212382751670, guid: 9713e66b2ea3391479063eef1e8c25ea,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9713e66b2ea3391479063eef1e8c25ea, type: 3}
 --- !u!4 &4258707149317389171 stripped
