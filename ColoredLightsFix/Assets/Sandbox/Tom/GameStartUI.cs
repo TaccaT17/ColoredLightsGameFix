@@ -6,12 +6,15 @@ public class GameStartUI : MonoBehaviour
 {
     public FadeObj[] fadeGO;
 
-    public GameObject button;
+    public GameObject[] turnOffGOs;
 
     public void TurnOffStartMenu()
     {
         //turn off text
-        button.SetActive(false);
+        foreach (GameObject gO in turnOffGOs)
+        {
+            gO.SetActive(false);
+        }
 
         foreach (FadeObj fade in fadeGO)
         {
