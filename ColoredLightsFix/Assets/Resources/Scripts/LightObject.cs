@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class LightObject : MonoBehaviour
 {
@@ -8,7 +9,9 @@ public class LightObject : MonoBehaviour
     #region VARIABLES
     //------------------------------------------------------------------------------------------------------------------------------------------------------------------
     public bool Stepable = false;
-    
+
+    public VisualEffect effect;
+
     public bool redLitsNeeded, yellowLitsNeeded, blueLitsNeeded;
 
     private Dictionary<GameManager.ColorOfLight, Light> litBy;
@@ -71,6 +74,31 @@ public class LightObject : MonoBehaviour
         GameManager.S.GetOrCreateComponent(out meshRendererRef, this.gameObject);
 
         Constructor(redLitsNeeded, yellowLitsNeeded, blueLitsNeeded);
+
+        if (redLitsNeeded && !yellowLitsNeeded && !blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(Color.red.r * 200, Color.red.g * 200, Color.red.b * 200, 1));
+        }
+        else if (!redLitsNeeded && yellowLitsNeeded && !blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(Color.yellow.r * 200, Color.yellow.g * 200, Color.yellow.b * 200, 1));
+        }
+        else if (!redLitsNeeded && !yellowLitsNeeded && blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(Color.blue.r * 200, Color.blue.g * 200, Color.blue.b * 200, 1));
+        }
+        else if (!redLitsNeeded && yellowLitsNeeded && blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(Color.green.r * 200, Color.green.g * 200, Color.green.b * 200, 1));
+        }
+        else if (redLitsNeeded && !yellowLitsNeeded && blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(Color.magenta.r * 200, Color.magenta.g * 200, Color.magenta.b * 200, 1));
+        }
+        else if (redLitsNeeded && yellowLitsNeeded && !blueLitsNeeded)
+        {
+            effect.SetVector4("ParticleColor", new Vector4(255 * 200, 165 * 200, 0 * 200, 1));
+        }
 
         CheckAndChangeOpacity();
         /*
@@ -173,6 +201,7 @@ public class LightObject : MonoBehaviour
         if (opacityPercentage >= 1)
         {
             //colliderRef.isTrigger = true;
+            effect.Play();
             Stepable = true;
         }
         else
