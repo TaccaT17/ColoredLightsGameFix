@@ -481,7 +481,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: c0715c9377371fd4dbca54794286eb66, type: 2}
   m_StaticLightingSkyUniqueID: 1
-  m_SkySettings: {fileID: 2083491440}
+  m_SkySettings: {fileID: 2129874601}
   m_SkySettingsFromProfile: {fileID: 7488742677745068149, guid: c0715c9377371fd4dbca54794286eb66,
     type: 2}
 --- !u!4 &1097239734
@@ -819,7 +819,7 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
---- !u!114 &2083491440
+--- !u!114 &2129874601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
